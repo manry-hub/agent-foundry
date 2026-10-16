@@ -60,7 +60,7 @@ test('help and command arguments are recognized', () => {
 test('Windows Git symlink placeholders resolve to local target content', async () => {
   const fixtureRoot = path.join(temporaryRoot, 'windows-checkout');
   const referencePath = [
-    '.agent',
+    '.agent-foundry',
     'skills',
     'owasp-secure-agent-playbook',
     'upstream',
@@ -116,10 +116,10 @@ test('local setup installs a complete app and updates the user PATH idempotently
     await readFile(path.join(paths.appRoot, 'AGENTS.md'), 'utf8'),
     await readFile(path.join(repositoryRoot, 'AGENTS.md'), 'utf8')
   );
-  assert.equal(await hasSymlink(path.join(paths.appRoot, '.agent')), false);
+  assert.equal(await hasSymlink(path.join(paths.appRoot, '.agent-foundry')), false);
   const referenceFile = path.join(
     paths.appRoot,
-    '.agent',
+    '.agent-foundry',
     'skills',
     'owasp-secure-agent-playbook',
     'upstream',
@@ -149,7 +149,7 @@ test('local setup installs a complete app and updates the user PATH idempotently
   assert.match(commandOutput, /Installed \d+ files/);
   assert.equal(await readFile(path.join(targetProject, 'AGENTS.md'), 'utf8'),
     await readFile(path.join(repositoryRoot, 'AGENTS.md'), 'utf8'));
-  assert.equal(await hasSymlink(path.join(targetProject, '.agent')), false);
+  assert.equal(await hasSymlink(path.join(targetProject, '.agent-foundry')), false);
 
   await installLocalCli(options);
   const updatedProfile = await readFile(profilePath, 'utf8');
@@ -158,7 +158,7 @@ test('local setup installs a complete app and updates the user PATH idempotently
   assert.ok(output.some((message) => message.includes('agent-foundry init')));
 });
 
-test('new installer leaves the old AgentConfig installation untouched', async () => {
+test('new installer leaves a pre-AgentFoundry installation untouched', async () => {
   const home = path.join(temporaryRoot, 'legacy-install-home');
   const options = {
     sourceRoot: repositoryRoot,
@@ -256,7 +256,7 @@ test('non-interactive conflicts abort before installing any other files', async 
     /No files were written/
   );
   assert.equal(await readFile(path.join(target, 'AGENTS.md'), 'utf8'), 'keep this file');
-  await assert.rejects(readFile(path.join(target, '.agent', 'rules', 'BRD.md')));
+  await assert.rejects(readFile(path.join(target, '.agent-foundry', 'docs', 'BRD.md')));
 });
 
 test('--force installs the complete bundle and replaces file conflicts', async () => {
@@ -266,18 +266,18 @@ test('--force installs the complete bundle and replaces file conflicts', async (
 
   await init({ targetDirectory: target, sourceRoot: repositoryRoot, force: true, write: () => {} });
   assert.match(await readFile(path.join(target, 'AGENTS.md'), 'utf8'), /^# Agent Guidance/);
-  assert.equal(await readFile(path.join(target, '.agent', 'tasks', 'todo.md'), 'utf8'), '');
-  assert.equal(await readFile(path.join(target, '.agent', 'tasks', 'lessons.md'), 'utf8'), '');
+  assert.equal(await readFile(path.join(target, '.agent-foundry', 'tasks', 'todo.md'), 'utf8'), '');
+  assert.equal(await readFile(path.join(target, '.agent-foundry', 'tasks', 'lessons.md'), 'utf8'), '');
   assert.equal(await hasSymlink(target), false);
 
   const impeccableSkill = await readFile(
-    path.join(target, '.agent', 'skills', 'impeccable', 'SKILL.md'),
+    path.join(target, '.agent-foundry', 'skills', 'impeccable', 'SKILL.md'),
     'utf8'
   );
   const materializedReference = await readFile(
     path.join(
       target,
-      '.agent',
+      '.agent-foundry',
       'skills',
       'owasp-secure-agent-playbook',
       'upstream',

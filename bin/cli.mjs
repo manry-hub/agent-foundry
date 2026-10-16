@@ -22,15 +22,15 @@ const pathSeparator = path.sep;
 // Git for Windows may check these tracked symlinks out as ordinary files.
 const checkoutSymlinkPlaceholders = new Map([
   [
-    '.agent/skills/owasp-secure-agent-playbook/upstream/plugins/code-security-skills/skills/securability-engineering-review/references',
+    '.agent-foundry/skills/owasp-secure-agent-playbook/upstream/plugins/code-security-skills/skills/securability-engineering-review/references',
     '../../../../data'
   ],
   [
-    '.agent/skills/owasp-secure-agent-playbook/upstream/plugins/code-security-skills/skills/securability-engineering/references',
+    '.agent-foundry/skills/owasp-secure-agent-playbook/upstream/plugins/code-security-skills/skills/securability-engineering/references',
     '../../../../data'
   ],
   [
-    '.agent/skills/owasp-secure-agent-playbook/upstream/plugins/code-security-skills/skills/security-guidance/references',
+    '.agent-foundry/skills/owasp-secure-agent-playbook/upstream/plugins/code-security-skills/skills/security-guidance/references',
     '../../../../data'
   ]
 ]);
@@ -39,7 +39,7 @@ export function printHelp(write = (message) => process.stdout.write(message)) {
   write([
     'Usage: agent-foundry init [target-dir] [--force]',
     '',
-    'Install AGENTS.md and .agent/ into a project directory.',
+    'Install AGENTS.md and .agent-foundry/ into a project directory.',
     '',
     'Options:',
     '  -f, --force  Replace every conflicting file without prompting',
@@ -156,7 +156,7 @@ export async function collectTemplateFiles(sourceRoot = packageRoot) {
   const sourceBoundary = await realpath(sourceRoot);
   const entries = [];
 
-  for (const relativePath of ['AGENTS.md', '.agent']) {
+  for (const relativePath of ['AGENTS.md', '.agent-foundry']) {
     await collectEntry(
       path.join(sourceBoundary, relativePath),
       relativePath,

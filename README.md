@@ -13,7 +13,7 @@ From this repository, run:
 
     node install.mjs
 
-The installer copies the current configuration into your per-user application directory, creates a launcher, and adds its directory to your user PATH. Existing AgentConfig installations are left untouched: they are not moved, updated, aliased, or removed. Open a new terminal after setup.
+The installer copies the current configuration into your per-user application directory, creates a launcher, and adds its directory to your user PATH. Existing pre-AgentFoundry installations are left untouched: they are not moved, updated, aliased, or removed. Open a new terminal after setup.
 
 ## Use from a software project
 

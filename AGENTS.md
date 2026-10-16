@@ -5,7 +5,7 @@ Use these shared rules across agents. Follow more specific project or task instr
 ## Understand the Project and Request
 
 - Treat the user's request and the repository's current state as the source of truth. Inspect relevant files and instructions before changing anything.
-- Identify the project's stack from its manifests and configuration, then read only the applicable guidance under `.agent/rules/`.
+- Identify the project's stack from its manifests and configuration, then read only the applicable guidance under `.agent-foundry/rules/`.
 - Before running project commands or changing dependencies, inspect manifests, lockfiles, runtime-version files, and tool configuration. Follow the declared versions, package manager, and existing scripts. Investigate conflicting declarations; ask before choosing a version or package manager only when the project leaves a necessary choice open.
 - Make consequential assumptions and tradeoffs explicit. Ask a focused question when plausible interpretations or an unresolved decision could materially change the result; otherwise proceed using the clearest supported interpretation.
 - Respect the requested workflow stage: discovery, specification, planning/tickets, implementation, or verification. A request for one stage authorizes that stage only; a clear implementation request authorizes the work. Pause for approval only when requested or when a material decision or scope exceeds that authorization.
@@ -13,7 +13,7 @@ Use these shared rules across agents. Follow more specific project or task instr
 ## Plan and Implement Proportionately
 
 - For substantial, multi-step, or architectural work, define the outcome, scope, assumptions, and observable completion criteria, then outline a concise plan. Use the active agent's planning features when available; small, clear tasks can proceed directly.
-- Use `.agent/tasks/todo.md` as a working checklist for substantial or long-running tasks. Update progress and add a concise review when using it.
+- Use `.agent-foundry/tasks/todo.md` as a working checklist for substantial or long-running tasks. Update progress and add a concise review when using it.
 - If an important assumption proves false, the approach stops working, or the scope must materially change, pause to explain the change and revise the plan. Get user input when the new scope or decision is not already authorized.
 - Prefer the simplest maintainable solution that meets the request. Avoid speculative features, dependencies, abstractions, or rewrites without a concrete need.
 - Keep changes surgical: follow the project's architecture and conventions, limit edits to the request and its necessary consequences, remove only artifacts made obsolete by the change, and investigate root causes instead of masking them with avoidable workarounds.
@@ -26,7 +26,7 @@ Use these shared rules across agents. Follow more specific project or task instr
 
 ## Task Records and Corrections
 
-- For substantial or long-running work, use `.agent/tasks/todo.md` as a concise checklist. Keep completed task records as history rather than replacing them; update checkboxes and review notes as work progresses.
+- For substantial or long-running work, use `.agent-foundry/tasks/todo.md` as a concise checklist. Keep completed task records as history rather than replacing them; update checkboxes and review notes as work progresses.
 - Format each todo entry with a task/workstream heading, observable checkbox items, and a review section:
 
   ```md
@@ -41,33 +41,37 @@ Use these shared rules across agents. Follow more specific project or task instr
   - Follow-up: <Unresolved items, if any>
   ```
 
-- Use `.agent/tasks/lessons.md` for reusable prevention rules, not a chronological task log. Keep the `# Lessons` heading and add one concise bullet per lesson, phrased as a trigger or context followed by the action that prevents recurrence:
+- Use `.agent-foundry/tasks/lessons.md` for reusable prevention rules, not a chronological task log. Keep the `# Lessons` heading and add one concise bullet per lesson, phrased as a trigger or context followed by the action that prevents recurrence:
 
   ```md
   # Lessons
   - When <trigger or context>, <preventive action>.
   ```
 
-- After any user correction, record its reusable lesson and prevention rule in `.agent/tasks/lessons.md`; consult relevant lessons on related work.
+- After any user correction, record its reusable lesson and prevention rule in `.agent-foundry/tasks/lessons.md`; consult relevant lessons on related work.
 - Do not create task-tracking records for trivial work unless the user or project requires them.
 
 ## Repository References
 
-- For branch, commit, merge, or pull request work, consult `.agent/rules/GIT.md` and follow repository conventions and the hosting platform's current state.
-- Treat files in `.agent/commands/` as standalone prompts for the user's manual use. Apply one only when the user explicitly asks to use that command.
-- For code style, use the matching guide under `.agent/rules/specific-codestyle/` when one exists for the project's stack. These guides hold stack-specific conventions; this file holds shared workflow guidance.
+- For branch, commit, merge, or pull request work, consult `.agent-foundry/rules/GIT.md` and follow repository conventions and the hosting platform's current state.
+- Treat files in `.agent-foundry/commands/` as standalone prompts for the user's manual use. Apply one only when the user explicitly asks to use that command.
+- For code style, use the matching guide under `.agent-foundry/rules/specific-codestyle/` when one exists for the project's stack. These guides hold stack-specific conventions; this file holds shared workflow guidance.
+- For product UI work that affects visual direction, interaction patterns, or the design system, consult `.agent-foundry/rules/DESIGN.md`.
+- Use `.agent-foundry/docs/` for living product and project documents; use `.agent-foundry/rules/` for agent procedures, design guidance, and stack-specific conventions.
 
 ## Skill Routing
 
 - For frontend UI or UX work, invoke the `impeccable` skill and follow its task-matched workflow and references. If it is missing from the active agent's skill catalog, install it from `pbakaus/impeccable` with that environment's supported skill installer, verify it is available, then invoke it.
-- For a requested security review or audit, invoke the installed OWASP skill that matches the target by its exact catalog name, including its namespace when shown. When available, use `owasp-secure-agent-playbook` as the router; otherwise choose a matching skill such as `code-security-skills:code-review-security`, `code-security-skills:web-security-review`, `code-security-skills:api-security-review`, `code-security-skills:sca-audit`, `code-security-skills:secrets-scan`, `code-security-skills:mobile-code-review`, `code-security-skills:iac-security-review`, `ai-security-skills:agent-security-audit`, `ai-security-skills:mcp-server-review`, `ai-security-skills:llm-risk-assess`, or `ai-security-skills:prompt-injection-test`. If the required skill is missing, install the relevant package or skill from `OWASP/secure-agent-playbook` with the active agent's supported skill or plugin installer, verify it is available, then invoke it by name.
+- For security reviews or audits, invoke the installed OWASP skill matching the target by its exact catalog name, including its namespace. Prefer `owasp-secure-agent-playbook` as the router; otherwise choose a target-specific skill. If missing, install the relevant skill or package from `OWASP/secure-agent-playbook` with the active agent's supported installer, verify it, then invoke it.
 - Treat skill names as agent-environment invocations, not project file paths. Install a missing task-relevant skill before starting work that depends on it. Follow the installed skill's complete procedure and load the references it identifies.
 
 ## Living Project Documents
 
-- Consult `.agent/rules/BRD.md` or `.agent/rules/FRD.md` when a task affects business scope or product behavior. After implementing a material change, update only affected statements in the relevant document; leave unrelated sections unchanged.
-- Treat the usual BRD and FRD topics as prompts, not mandatory headings. Keep these documents concise and current; leave unknowns open rather than inventing them.
-- For changes to persisted data, consult the project's existing `DATABASE.md` and update facts verifiable from its schema, migrations, models, or queries. Keep web research separate from routine feature work; when research is requested, record sources and dates and distinguish recommendations from the implemented data model. Do not create a duplicate `DATABASE.md` when none exists.
+- Consult `.agent-foundry/docs/BRD.md` for business context, problem and objectives, stakeholders, high-level business requirements and scope, business rules, KPIs, constraints, assumptions, risks, or dependencies.
+- Consult `.agent-foundry/docs/PRD.md` for product overview, target users, needs and use cases, product scope, feature requirements, user stories, acceptance criteria, user flows and UX, and functional or non-functional requirements.
+- Consult `.agent-foundry/docs/SDD.md` for system boundaries, architecture, technology stack, module or component responsibilities and dependencies, and database design such as ERDs, tables, relationships, indexes, and constraints.
+- After a material feature addition, change, or removal, update or retire only the affected information in relevant documents. Treat the listed topics as prompts rather than mandatory headings; keep useful sections concise, leave unknowns explicit, and do not invent decisions.
+- Keep external research distinct from project facts. When research is requested or supplied, record its sources and dates and label recommendations or proposed designs; describe the current system using project evidence such as configuration, schemas, migrations, models, and queries. Do not repeat web research during routine implementation unless requested.
 
 ## MCP Tool Routing
 
