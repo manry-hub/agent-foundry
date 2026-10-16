@@ -4,9 +4,9 @@ Gunakan prompt ini secara manual untuk mengisi atau merapikan dokumentasi produk
 
 ## Dokumen Sasaran
 
-- `.agent/docs/BRD.md` — konteks dan kebutuhan bisnis.
-- `.agent/docs/PRD.md` — kebutuhan produk, termasuk kebutuhan fungsional yang kadang disebut FRD. Gunakan nama PRD yang sudah ditetapkan proyek; jangan membuat `FRD.md` duplikat.
-- `.agent/docs/SDD.md` — desain sistem, arsitektur, teknologi, komponen, dan desain database.
+- `.agent-foundry/docs/BRD.md` — konteks dan kebutuhan bisnis.
+- `.agent-foundry/docs/PRD.md` — kebutuhan produk, termasuk kebutuhan fungsional yang kadang disebut FRD. Gunakan nama PRD yang sudah ditetapkan proyek; jangan membuat `FRD.md` duplikat.
+- `.agent-foundry/docs/SDD.md` — desain sistem, arsitektur, teknologi, komponen, dan desain database.
 
 ## Prosedur
 
