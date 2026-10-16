@@ -1,25 +1,44 @@
-# @manry-hub/agent-config
+# AgentConfig
 
-Run the installer directly from the public GitHub repository:
+AgentConfig installs shared agent guidance and skills into software projects with a local CLI. It does not require npm publishing or an npm registry.
 
-```sh
-npx --allow-git=all --allow-scripts=@manry-hub/agent-config --package=github:manry-hub/AgentConfig#feature/npm-cli-scaffold agent-config init
-```
+## Requirements
 
-This does not use the npm registry. With npm 12, Git dependencies and lifecycle scripts are disabled by default. These command-only flags allow Git dependencies for this invocation and permit only this package's `prepare` script to assemble its template; they do not change your global npm settings. The `feature/npm-cli-scaffold` branch must be pushed to GitHub first. After merging the feature into the default branch, remove `#feature/npm-cli-scaffold` from the package spec.
+- Node.js 18 or newer
+- A checkout of this repository
 
-By default, `init` installs `AGENTS.md` and the complete `.agent/` directory into the current working directory. Pass a target directory to install elsewhere:
+## One-time setup
 
-```sh
-npx --allow-git=all --allow-scripts=@manry-hub/agent-config --package=github:manry-hub/AgentConfig#feature/npm-cli-scaffold agent-config init ./my-project
-```
+From this repository, run:
 
-The installer merges directories and asks separately before replacing each conflicting file when run in an interactive terminal. In a non-interactive environment, it stops before writing if conflicts exist. Use `--force` to replace all conflicting files:
+    node install.mjs
 
-```sh
-npx --allow-git=all --allow-scripts=@manry-hub/agent-config --package=github:manry-hub/AgentConfig#feature/npm-cli-scaffold agent-config init ./my-project --force
-```
+The installer copies the current configuration into your per-user application directory, creates a launcher, and adds its directory to your user PATH. Open a new terminal after setup.
 
-`--force` only replaces files that conflict with the bundled configuration; it does not remove unrelated files. This release provides `init` only.
+## Use from a software project
 
-The installer package contains the repository's root `AGENTS.md` and `.agent/` tree. Vendored skills retain their own license and notice files. The top-level license applies to the CLI and original configuration materials; consult each vendored skill's notices for its terms.
+From the project directory, install the configuration into the current project:
+
+    agent-config init
+
+Pass a target directory to install somewhere else:
+
+    agent-config init ./my-project
+
+The CLI merges directories and asks before replacing each conflicting file in an interactive terminal. If conflicts exist in a non-interactive environment, it stops before writing. Use --force to replace all conflicting files:
+
+    agent-config init ./my-project --force
+
+--force replaces only files that conflict with the bundled configuration; it does not remove unrelated files.
+
+## Updating the installed configuration
+
+Update this repository to the revision you want, then run node install.mjs again from the checkout. The installer refreshes its managed local copy. Existing projects are not changed; run agent-config init in each project to apply updates there.
+
+## Development checks
+
+Run the local test suite without npm:
+
+    node --test
+
+Vendored skills retain their own license and notice files. The top-level license applies to the CLI and original configuration materials; consult each vendored skill's notices for its terms.
