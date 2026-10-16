@@ -37,7 +37,7 @@ const checkoutSymlinkPlaceholders = new Map([
 
 export function printHelp(write = (message) => process.stdout.write(message)) {
   write([
-    'Usage: agent-config init [target-dir] [--force]',
+    'Usage: agent-foundry init [target-dir] [--force]',
     '',
     'Install AGENTS.md and .agent/ into a project directory.',
     '',
@@ -112,7 +112,7 @@ async function resolveSourceEntry(sourcePath, relativePath, sourceBoundary) {
   }
 
   if (!isWithinDirectory(sourceBoundary, resolvedPath)) {
-    throw new Error('Template entry resolves outside the AgentConfig directory: ' + relativePath);
+    throw new Error('Template entry resolves outside the AgentFoundry directory: ' + relativePath);
   }
 
   const resolvedStats = await stat(resolvedPath);
@@ -364,7 +364,7 @@ async function main() {
 
     await init(parsed);
   } catch (error) {
-    process.stderr.write('agent-config: ' + error.message + '\n');
+    process.stderr.write('agent-foundry: ' + error.message + '\n');
     process.exitCode = 1;
   }
 }

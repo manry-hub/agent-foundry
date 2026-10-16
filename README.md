@@ -1,6 +1,6 @@
-# AgentConfig
+# AgentFoundry
 
-AgentConfig installs shared agent guidance and skills into software projects with a local CLI. It does not require npm publishing or an npm registry.
+AgentFoundry installs shared agent guidance and skills into software projects with a local CLI. It does not require npm publishing or an npm registry.
 
 ## Requirements
 
@@ -13,27 +13,27 @@ From this repository, run:
 
     node install.mjs
 
-The installer copies the current configuration into your per-user application directory, creates a launcher, and adds its directory to your user PATH. Open a new terminal after setup.
+The installer copies the current configuration into your per-user application directory, creates a launcher, and adds its directory to your user PATH. Existing AgentConfig installations are left untouched: they are not moved, updated, aliased, or removed. Open a new terminal after setup.
 
 ## Use from a software project
 
 From the project directory, install the configuration into the current project:
 
-    agent-config init
+    agent-foundry init
 
 Pass a target directory to install somewhere else:
 
-    agent-config init ./my-project
+    agent-foundry init ./my-project
 
 The CLI merges directories and asks before replacing each conflicting file in an interactive terminal. If conflicts exist in a non-interactive environment, it stops before writing. Use --force to replace all conflicting files:
 
-    agent-config init ./my-project --force
+    agent-foundry init ./my-project --force
 
 --force replaces only files that conflict with the bundled configuration; it does not remove unrelated files.
 
 ## Updating the installed configuration
 
-Update this repository to the revision you want, then run node install.mjs again from the checkout. The installer refreshes its managed local copy. Existing projects are not changed; run agent-config init in each project to apply updates there.
+Update this repository to the revision you want, then run node install.mjs again from the checkout. The installer refreshes its managed local copy. Existing projects are not changed; run agent-foundry init in each project to apply updates there.
 
 ## Development checks
 

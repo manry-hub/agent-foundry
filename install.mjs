@@ -19,10 +19,10 @@ import { fileURLToPath } from 'node:url';
 import { materializeTemplate } from './bin/cli.mjs';
 
 const sourceRoot = path.dirname(fileURLToPath(import.meta.url));
-const managedMarker = '.managed-by-agent-config';
-const managedMarkerContent = 'Managed by AgentConfig local installer.\n';
-const pathStartMarker = '# >>> agent-config managed PATH >>>';
-const pathEndMarker = '# <<< agent-config managed PATH <<<';
+const managedMarker = '.managed-by-agent-foundry';
+const managedMarkerContent = 'Managed by AgentFoundry local installer.\n';
+const pathStartMarker = '# >>> agent-foundry managed PATH >>>';
+const pathEndMarker = '# <<< agent-foundry managed PATH <<<';
 
 export function getInstallPaths({
   platform = process.platform,
@@ -34,7 +34,7 @@ export function getInstallPaths({
   if (platform === 'win32') {
     const pathApi = path.win32;
     const localAppData = env.LOCALAPPDATA || pathApi.join(userHome, 'AppData', 'Local');
-    const root = pathApi.join(localAppData, 'AgentConfig');
+    const root = pathApi.join(localAppData, 'AgentFoundry');
     return {
       appRoot: pathApi.join(root, 'app'),
       binDir: pathApi.join(root, 'bin')
@@ -50,7 +50,7 @@ export function getInstallPaths({
     : path.join(userHome, '.local', 'share');
 
   return {
-    appRoot: path.join(dataHome, 'agent-config'),
+    appRoot: path.join(dataHome, 'agent-foundry'),
     binDir: path.join(userHome, '.local', 'bin')
   };
 }
@@ -111,7 +111,7 @@ function replaceManagedPathBlock(contents, command) {
   if (start === -1 || end === -1 || end < start
     || contents.indexOf(pathStartMarker, start + pathStartMarker.length) !== -1
     || contents.indexOf(pathEndMarker, end + pathEndMarker.length) !== -1) {
-    throw new Error('The agent-config PATH markers in the shell profile are incomplete or duplicated.');
+    throw new Error('The agent-foundry PATH markers in the shell profile are incomplete or duplicated.');
   }
 
   return contents.slice(0, start) + block + contents.slice(end + pathEndMarker.length);
@@ -184,7 +184,7 @@ async function assertLauncherIsManaged(launcherPath, expectedContents) {
   if ((await readFile(launcherPath, 'utf8')) !== expectedContents) {
     throw new Error(
       'Refusing to replace an unmanaged launcher at ' + launcherPath
-      + '. Move it aside before installing AgentConfig.'
+      + '. Move it aside before installing AgentFoundry.'
     );
   }
 }
@@ -201,13 +201,13 @@ async function isManagedInstall(appRoot) {
   if (!markerStats || !markerStats.isFile() || markerStats.isSymbolicLink()) {
     throw new Error(
       'Refusing to replace an unmanaged directory at ' + appRoot
-      + '. Move it aside before installing AgentConfig.'
+      + '. Move it aside before installing AgentFoundry.'
     );
   }
   if ((await readFile(markerPath, 'utf8')) !== managedMarkerContent) {
     throw new Error(
       'Refusing to replace an unrecognized directory at ' + appRoot
-      + '. Move it aside before installing AgentConfig.'
+      + '. Move it aside before installing AgentFoundry.'
     );
   }
 
@@ -216,8 +216,8 @@ async function isManagedInstall(appRoot) {
 
 async function replaceLocalApp(sourceRootPath, appRoot) {
   const parentDirectory = path.dirname(appRoot);
-  const stagingRoot = path.join(parentDirectory, '.agent-config-stage-' + randomUUID());
-  const backupRoot = path.join(parentDirectory, '.agent-config-backup-' + randomUUID());
+  const stagingRoot = path.join(parentDirectory, '.agent-foundry-stage-' + randomUUID());
+  const backupRoot = path.join(parentDirectory, '.agent-foundry-backup-' + randomUUID());
   const existing = await existingEntry(appRoot);
   const managed = existing ? await isManagedInstall(appRoot) : false;
 
@@ -267,8 +267,8 @@ export async function installLocalCli({
   const installPaths = getInstallPaths({ platform, home: userHome, env });
   await mkdir(installPaths.binDir, { recursive: true });
   const launcherPath = platform === 'win32'
-    ? path.win32.join(installPaths.binDir, 'agent-config.cmd')
-    : path.join(installPaths.binDir, 'agent-config');
+    ? path.win32.join(installPaths.binDir, 'agent-foundry.cmd')
+    : path.join(installPaths.binDir, 'agent-foundry');
   const launcherContents = platform === 'win32'
     ? buildWindowsLauncher()
     : buildUnixLauncher(installPaths.appRoot);
@@ -297,7 +297,7 @@ export async function installLocalCli({
   }
 
   write('Installed ' + installedFileCount + ' files into ' + installPaths.appRoot + '.\n');
-  write('Open a new terminal, then run: agent-config init\n');
+  write('Open a new terminal, then run: agent-foundry init\n');
   return installPaths;
 }
 
@@ -305,8 +305,8 @@ function printHelp() {
   process.stdout.write([
     'Usage: node install.mjs',
     '',
-    'Install the local agent-config command for the current user.',
-    'Run this from the AgentConfig checkout; no npm registry is used.',
+    'Install the local agent-foundry command for the current user.',
+    'Run this from the AgentFoundry checkout; no npm registry is used.',
     ''
   ].join('\n'));
 }
@@ -326,7 +326,7 @@ async function main() {
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   main().catch((error) => {
-    process.stderr.write('AgentConfig installer: ' + error.message + '\n');
+    process.stderr.write('AgentFoundry installer: ' + error.message + '\n');
     process.exitCode = 1;
   });
 }

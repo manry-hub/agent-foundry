@@ -37,7 +37,7 @@ function countOccurrences(text, value) {
 }
 
 before(async () => {
-  temporaryRoot = await mkdtemp(path.join(os.tmpdir(), 'agent-config-test-'));
+  temporaryRoot = await mkdtemp(path.join(os.tmpdir(), 'agent-foundry-test-'));
 });
 
 after(async () => {
@@ -48,7 +48,7 @@ test('help and command arguments are recognized', () => {
   let help = '';
   printHelp((message) => { help = message; });
 
-  assert.match(help, /Usage: agent-config init/);
+  assert.match(help, /Usage: agent-foundry init/);
   assert.deepEqual(parseArguments(['--help']), { help: true });
   assert.deepEqual(parseArguments(['init', './project', '--force']), {
     command: 'init',
@@ -132,17 +132,17 @@ test('local setup installs a complete app and updates the user PATH idempotently
     'C1.1.md'
   );
   assert.ok((await readFile(referenceFile, 'utf8')).length > 0);
-  assert.ok((await readFile(path.join(paths.binDir, 'agent-config'), 'utf8')).includes('cli.mjs'));
-  assert.ok((await stat(path.join(paths.binDir, 'agent-config'))).mode & 0o111);
+  assert.ok((await readFile(path.join(paths.binDir, 'agent-foundry'), 'utf8')).includes('cli.mjs'));
+  assert.ok((await stat(path.join(paths.binDir, 'agent-foundry'))).mode & 0o111);
 
   const profilePath = path.join(home, '.bashrc');
   const profile = await readFile(profilePath, 'utf8');
-  assert.equal(countOccurrences(profile, '# >>> agent-config managed PATH >>>'), 1);
-  assert.equal(countOccurrences(profile, '# <<< agent-config managed PATH <<<'), 1);
+  assert.equal(countOccurrences(profile, '# >>> agent-foundry managed PATH >>>'), 1);
+  assert.equal(countOccurrences(profile, '# <<< agent-foundry managed PATH <<<'), 1);
 
   const targetProject = path.join(temporaryRoot, 'separate-project');
   await mkdir(targetProject, { recursive: true });
-  const commandOutput = execFileSync(path.join(paths.binDir, 'agent-config'), ['init'], {
+  const commandOutput = execFileSync(path.join(paths.binDir, 'agent-foundry'), ['init'], {
     cwd: targetProject,
     encoding: 'utf8'
   });
@@ -153,16 +153,41 @@ test('local setup installs a complete app and updates the user PATH idempotently
 
   await installLocalCli(options);
   const updatedProfile = await readFile(profilePath, 'utf8');
-  assert.equal(countOccurrences(updatedProfile, '# >>> agent-config managed PATH >>>'), 1);
-  assert.equal(countOccurrences(updatedProfile, '# <<< agent-config managed PATH <<<'), 1);
-  assert.ok(output.some((message) => message.includes('agent-config init')));
+  assert.equal(countOccurrences(updatedProfile, '# >>> agent-foundry managed PATH >>>'), 1);
+  assert.equal(countOccurrences(updatedProfile, '# <<< agent-foundry managed PATH <<<'), 1);
+  assert.ok(output.some((message) => message.includes('agent-foundry init')));
+});
+
+test('new installer leaves the old AgentConfig installation untouched', async () => {
+  const home = path.join(temporaryRoot, 'legacy-install-home');
+  const options = {
+    sourceRoot: repositoryRoot,
+    platform: 'linux',
+    home,
+    env: { SHELL: '/bin/bash' },
+    write: () => {}
+  };
+  const oldAppRoot = path.join(home, '.local', 'share', 'agent-config');
+  const oldLauncherPath = path.join(home, '.local', 'bin', 'agent-config');
+  const oldAppFile = path.join(oldAppRoot, 'keep.txt');
+  await mkdir(oldAppRoot, { recursive: true });
+  await mkdir(path.dirname(oldLauncherPath), { recursive: true });
+  await writeFile(oldAppFile, 'old install data');
+  await writeFile(oldLauncherPath, '#!/bin/sh\necho old launcher\n');
+
+  const paths = await installLocalCli(options);
+
+  assert.equal(await readFile(oldAppFile, 'utf8'), 'old install data');
+  assert.equal(await readFile(oldLauncherPath, 'utf8'), '#!/bin/sh\necho old launcher\n');
+  assert.ok(await stat(path.join(paths.appRoot, 'AGENTS.md')));
+  assert.ok(await stat(path.join(paths.binDir, 'agent-foundry')));
 });
 
 test('Windows paths and launcher use per-user locations and a command shim', () => {
   const slash = String.fromCharCode(92);
   const home = ['C:', 'Users', 'Example'].join(slash);
   const localAppData = [home, 'AppData', 'Local'].join(slash);
-  const expectedRoot = [localAppData, 'AgentConfig'].join(slash);
+  const expectedRoot = [localAppData, 'AgentFoundry'].join(slash);
 
   assert.deepEqual(
     getInstallPaths({
@@ -178,7 +203,7 @@ test('Windows paths and launcher use per-user locations and a command shim', () 
   assert.ok(buildWindowsLauncher().includes('%~dp0'));
 
   const apostrophe = String.fromCharCode(39);
-  const windowsPath = ['C:', 'Users', 'O' + apostrophe + 'Hare', 'AgentConfig', 'bin'].join(slash);
+  const windowsPath = ['C:', 'Users', 'O' + apostrophe + 'Hare', 'AgentFoundry', 'bin'].join(slash);
   const pathCommand = buildWindowsPathUpdateCommand(windowsPath);
   assert.ok(pathCommand.includes('O' + apostrophe + apostrophe + 'Hare'));
   assert.ok(pathCommand.includes("SetEnvironmentVariable('Path', $next, 'User')"));
@@ -212,7 +237,7 @@ test('local setup preserves an unmanaged command already in the user bin directo
     write: () => {}
   };
   const paths = getInstallPaths(options);
-  const launcherPath = path.join(paths.binDir, 'agent-config');
+  const launcherPath = path.join(paths.binDir, 'agent-foundry');
   await mkdir(paths.binDir, { recursive: true });
   await writeFile(launcherPath, '#!/bin/sh\necho user command\n');
 
