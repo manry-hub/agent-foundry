@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { realpathSync } from 'node:fs';
 import { lstat, mkdir, readdir, readFile, rm, writeFile, chmod } from 'node:fs/promises';
 import path from 'node:path';
 import { createInterface } from 'node:readline/promises';
@@ -261,6 +262,16 @@ async function main() {
   }
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+export function isMainEntrypoint(candidatePath, modulePath) {
+  if (!candidatePath) return false;
+
+  try {
+    return realpathSync(candidatePath) === realpathSync(modulePath);
+  } catch {
+    return false;
+  }
+}
+
+if (isMainEntrypoint(process.argv[1], fileURLToPath(import.meta.url))) {
   await main();
 }

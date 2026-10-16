@@ -1,9 +1,10 @@
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, readFile, readdir, rm, writeFile, lstat } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, readdir, rm, writeFile, lstat, symlink } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { after, before, test } from 'node:test';
-import { init, parseArguments } from '../bin/cli.js';
+import { init, isMainEntrypoint, parseArguments } from '../bin/cli.js';
 import { buildTemplate, cleanTemplate } from '../scripts/prepare-template.js';
 
 let temporaryRoot;
@@ -36,6 +37,14 @@ test('help flag is recognized', () => {
     targetDirectory: './project',
     force: true
   });
+});
+
+test('CLI entrypoint detection follows npm bin symlinks', async () => {
+  const cliPath = fileURLToPath(new URL('../bin/cli.js', import.meta.url));
+  const symlinkPath = path.join(temporaryRoot, 'agent-config-bin');
+  await symlink(cliPath, symlinkPath);
+
+  assert.equal(isMainEntrypoint(symlinkPath, cliPath), true);
 });
 
 test('non-interactive conflicts abort before installing any other files', async () => {
