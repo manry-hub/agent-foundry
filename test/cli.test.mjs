@@ -256,7 +256,7 @@ test('non-interactive conflicts abort before installing any other files', async 
     /No files were written/
   );
   assert.equal(await readFile(path.join(target, 'AGENTS.md'), 'utf8'), 'keep this file');
-  await assert.rejects(readFile(path.join(target, '.agent', 'rules', 'BRD.md')));
+  await assert.rejects(readFile(path.join(target, '.agent', 'docs', 'BRD.md')));
 });
 
 test('--force installs the complete bundle and replaces file conflicts', async () => {

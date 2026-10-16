@@ -56,6 +56,8 @@ Use these shared rules across agents. Follow more specific project or task instr
 - For branch, commit, merge, or pull request work, consult `.agent/rules/GIT.md` and follow repository conventions and the hosting platform's current state.
 - Treat files in `.agent/commands/` as standalone prompts for the user's manual use. Apply one only when the user explicitly asks to use that command.
 - For code style, use the matching guide under `.agent/rules/specific-codestyle/` when one exists for the project's stack. These guides hold stack-specific conventions; this file holds shared workflow guidance.
+- For product UI work that affects visual direction, interaction patterns, or the design system, consult `.agent/rules/DESIGN.md`.
+- Use `.agent/docs/` for living product and project documents; use `.agent/rules/` for agent procedures, design guidance, and stack-specific conventions.
 
 ## Skill Routing
 
@@ -65,9 +67,11 @@ Use these shared rules across agents. Follow more specific project or task instr
 
 ## Living Project Documents
 
-- Consult `.agent/rules/BRD.md` or `.agent/rules/FRD.md` when a task affects business scope or product behavior. After implementing a material change, update only affected statements in the relevant document; leave unrelated sections unchanged.
-- Treat the usual BRD and FRD topics as prompts, not mandatory headings. Keep these documents concise and current; leave unknowns open rather than inventing them.
-- For changes to persisted data, consult the project's existing `DATABASE.md` and update facts verifiable from its schema, migrations, models, or queries. Keep web research separate from routine feature work; when research is requested, record sources and dates and distinguish recommendations from the implemented data model. Do not create a duplicate `DATABASE.md` when none exists.
+- Consult `.agent/docs/BRD.md` for business context, problem and objectives, stakeholders, high-level business requirements and scope, business rules, KPIs, constraints, assumptions, risks, or dependencies.
+- Consult `.agent/docs/PRD.md` for product overview, target users, needs and use cases, product scope, feature requirements, user stories, acceptance criteria, user flows and UX, and functional or non-functional requirements.
+- Consult `.agent/docs/SDD.md` for system boundaries, architecture, technology stack, module or component responsibilities and dependencies, and database design such as ERDs, tables, relationships, indexes, and constraints.
+- After a material feature addition, change, or removal, update or retire only the affected information in relevant documents. Treat the listed topics as prompts rather than mandatory headings; keep useful sections concise, leave unknowns explicit, and do not invent decisions.
+- Keep external research distinct from project facts. When research is requested or supplied, record its sources and dates and label recommendations or proposed designs; describe the current system using project evidence such as configuration, schemas, migrations, models, and queries. Do not repeat web research during routine implementation unless requested.
 
 ## MCP Tool Routing
 
