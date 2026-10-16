@@ -1,4 +1,4 @@
-# AgentConfig Task Log
+# AgentFoundry Task Log
 
 ## Move skill bundles out of the repository
 

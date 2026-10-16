@@ -158,7 +158,7 @@ test('local setup installs a complete app and updates the user PATH idempotently
   assert.ok(output.some((message) => message.includes('agent-foundry init')));
 });
 
-test('new installer leaves the old AgentConfig installation untouched', async () => {
+test('new installer leaves a pre-AgentFoundry installation untouched', async () => {
   const home = path.join(temporaryRoot, 'legacy-install-home');
   const options = {
     sourceRoot: repositoryRoot,
