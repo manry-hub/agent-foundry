@@ -56,8 +56,12 @@ Use these shared rules across agents. Follow more specific project or task instr
 - For branch, commit, merge, or pull request work, consult `.agent/rules/GIT.md` and follow repository conventions and the hosting platform's current state.
 - Treat files in `.agent/commands/` as standalone prompts for the user's manual use. Apply one only when the user explicitly asks to use that command.
 - For code style, use the matching guide under `.agent/rules/specific-codestyle/` when one exists for the project's stack. These guides hold stack-specific conventions; this file holds shared workflow guidance.
-- For frontend UI or UX work, read `.agent/skills/impeccable/SKILL.md` and load the reference that matches the task.
-- For a requested security review or audit, read `.agent/skills/owasp-secure-agent-playbook/SKILL.md` and follow the upstream procedure that matches the target.
+
+## Skill Routing
+
+- For frontend UI or UX work, invoke the `impeccable` skill and follow its task-matched workflow and references. If it is missing from the active agent's skill catalog, install it from `pbakaus/impeccable` with that environment's supported skill installer, verify it is available, then invoke it.
+- For a requested security review or audit, invoke the installed OWASP skill that matches the target by its exact catalog name, including its namespace when shown. When available, use `owasp-secure-agent-playbook` as the router; otherwise choose a matching skill such as `code-security-skills:code-review-security`, `code-security-skills:web-security-review`, `code-security-skills:api-security-review`, `code-security-skills:sca-audit`, `code-security-skills:secrets-scan`, `code-security-skills:mobile-code-review`, `code-security-skills:iac-security-review`, `ai-security-skills:agent-security-audit`, `ai-security-skills:mcp-server-review`, `ai-security-skills:llm-risk-assess`, or `ai-security-skills:prompt-injection-test`. If the required skill is missing, install the relevant package or skill from `OWASP/secure-agent-playbook` with the active agent's supported skill or plugin installer, verify it is available, then invoke it by name.
+- Treat skill names as agent-environment invocations, not project file paths. Install a missing task-relevant skill before starting work that depends on it. Follow the installed skill's complete procedure and load the references it identifies.
 
 ## Living Project Documents
 
