@@ -42,3 +42,10 @@ Run the local test suite without npm:
     node --test
 
 Vendored skills retain their own license and notice files. The top-level license applies to the CLI and original configuration materials; consult each vendored skill's notices for its terms.
+
+## Prompt for first time before ask ai
+I want a deeper version of this task, not a bigger one. Before rewriting it: 
+(1) say what a top professional in this field would do here that I’m not asking for; 
+(2) name the rawest material they would start from instead of what has already been digested for me; 
+(3) name the specific methods and tools they would use; 
+(4) say what, other than you or me, would show the result is right. Then rewrite my prompt to ask for exactly that
