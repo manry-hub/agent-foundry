@@ -53,15 +53,16 @@ Use these shared rules across agents. Follow more specific project or task instr
 
 ## Repository References
 
-- For branch, commit, merge, or pull request work, consult `.agent-foundry/rules/GIT.md` and follow repository conventions and the hosting platform's current state.
-- Treat files in `.agent-foundry/commands/` as standalone prompts for the user's manual use. Apply one only when the user explicitly asks to use that command.
+- For branch, commit, merge, or pull request work, consult `.agent-foundry/commands/GIT.md` and follow repository conventions and the hosting platform's current state.
+- Treat files in `.agent-foundry/commands/` as standalone prompts for manual use; apply them only when explicitly requested. Consult `GIT.md` during branch, commit, merge, or pull request work as described above.
 - For code style, use the matching guide under `.agent-foundry/rules/specific-codestyle/` when one exists for the project's stack. These guides hold stack-specific conventions; this file holds shared workflow guidance.
-- For product UI work that affects visual direction, interaction patterns, or the design system, consult `.agent-foundry/rules/DESIGN.md`.
-- Use `.agent-foundry/docs/` for living product and project documents; use `.agent-foundry/rules/` for agent procedures, design guidance, and stack-specific conventions.
+- For product UI work that affects visual direction, interaction patterns, or the design system, consult the root `DESIGN.md`.
+- Use `.agent-foundry/docs/` for living product and project documents, the root `DESIGN.md` for design guidance, and `.agent-foundry/rules/` for agent procedures and stack-specific conventions.
 
 ## Skill Routing
 
 - For frontend UI or UX work, invoke the `impeccable` skill and follow its task-matched workflow and references. If it is missing from the active agent's skill catalog, install it from `pbakaus/impeccable` with that environment's supported skill installer, verify it is available, then invoke it.
+- Apply Antislop only when task scope matches. In `.agent-foundry/rules/antislop/`, read `CORE-FILTER.md` plus only the matching specialist: `UI.md` for interface visuals or interaction patterns, `COPYWRITING.md` for user-facing copy or prose, and `LAYOUT-MOBILE.md` for responsive or mobile behavior. For mixed work, read only the matching specialists. Skip all Antislop files for unrelated tasks, and resolve its usage mode only after a scope match.
 - For security reviews or audits, invoke the installed OWASP skill matching the target by its exact catalog name, including its namespace. Prefer `owasp-secure-agent-playbook` as the router; otherwise choose a target-specific skill. If missing, install the relevant skill or package from `OWASP/secure-agent-playbook` with the active agent's supported installer, verify it, then invoke it.
 - Treat skill names as agent-environment invocations, not project file paths. Install a missing task-relevant skill before starting work that depends on it. Follow the installed skill's complete procedure and load the references it identifies.
 

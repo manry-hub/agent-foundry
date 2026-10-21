@@ -1,10 +1,10 @@
 # SETUPDESIGN — Inisialisasi Pedoman Tampilan Proyek Berjalan
 
-Gunakan prompt ini secara manual untuk memahami tampilan aplikasi yang sudah ada dan menginisialisasi atau memperbarui `.agent-foundry/rules/DESIGN.md`. Perlakukan proyek sebagai proyek lanjutan: petakan pola yang benar-benar dipakai sebelum memberi arahan visual baru. Tugas ini hanya mengubah dokumentasi, kecuali pengguna secara eksplisit meminta implementasi UI.
+Gunakan prompt ini secara manual untuk memahami tampilan aplikasi yang sudah ada dan menginisialisasi atau memperbarui `DESIGN.md` di root proyek. Perlakukan proyek sebagai proyek lanjutan: petakan pola yang benar-benar dipakai sebelum memberi arahan visual baru. Tugas ini hanya mengubah dokumentasi, kecuali pengguna secara eksplisit meminta implementasi UI.
 
 ## Prosedur
 
-1. Baca `AGENTS.md`, instruksi lokal yang berlaku, `.agent-foundry/rules/DESIGN.md`, dan dokumen produk yang relevan. Pertahankan keputusan desain yang masih berlaku.
+1. Baca `AGENTS.md`, instruksi lokal yang berlaku, `DESIGN.md` di root proyek, dan dokumen produk yang relevan. Pertahankan keputusan desain yang masih berlaku.
 2. Identifikasi stack frontend, entry point, route atau screen utama, layout, design tokens, stylesheet, komponen bersama, font, ikon, dan aset visual dari codebase. Ikuti versi framework dan package manager yang ditetapkan proyek.
 3. Untuk memahami UI secara struktural, gunakan skill `codebase-memory` bila tersedia dan sesuai instruksi proyek; verifikasi temuan penting pada source code.
 4. Untuk tugas UI/UX, gunakan skill `impeccable` dan ikuti alur yang cocok untuk audit atau pendokumentasian desain. Jika tidak tersedia, ikuti instruksi instalasi di `AGENTS.md` sebelum bergantung padanya.
@@ -39,7 +39,7 @@ Jangan menginventaris semua komponen atau menyalin seluruh nilai CSS. Rujuk file
 
 ## Kriteria Selesai
 
-- `.agent-foundry/rules/DESIGN.md` menjelaskan pola visual yang relevan dan arahan pengguna untuk pengembangan berikutnya.
+- `DESIGN.md` di root proyek menjelaskan pola visual yang relevan dan arahan pengguna untuk pengembangan berikutnya.
 - Fakta yang diamati, target yang diminta, dan usulan yang belum disetujui dapat dibedakan.
 - Pedoman cukup ringkas untuk dipakai saat mengerjakan UI dan tidak memaksa redesign menyeluruh.
 - Laporkan file yang diubah, sumber pengamatan (source, route, atau state UI), serta keterbatasan atau keputusan visual yang masih terbuka.
