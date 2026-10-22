@@ -6,12 +6,19 @@ Read this file with `CORE-FILTER.md` only when a task writes or edits user-facin
 
 ## How to use this reference
 
-- The core holds shared rules and the Delivery Gate; this file holds copy-specific checks.
-- Every pattern has the same shape: **The pattern**, **Why it reads as AI**, **Before** (the slop), **After** (the fix), with the governing core rule cited as R-XX.
+- The core holds shared standards and mode handling; this file holds copy-specific rules and checks.
+- Every pattern has the same shape: **The pattern**, **Why it reads as AI**, **Before** (the slop), **After** (the fix), with its governing rule cited as R-XX.
 - Two rules apply to everything below:
   - **Never invent facts** (R-17, R-36, R-38). A rewrite adds no fact, name, number, date, quote, or citation that is not in the source text or supplied by the user. Specificity comes from the source or the user, not from the rewrite. If a sentence needs real detail to work, ask for it or write the plain version without it.
-  - **Do not over-sterilize.** Avoiding AI patterns is half the job. Copy with no voice is as obviously machine-made as copy full of AI tells (R-37). When a user supplies a voice, keep it.
-- Run the "Copywriting Checklist" at the end of this file alongside the core Delivery Gate when copy work is in scope.
+  - **Keep the user's voice.** Match supplied writing and source material; if it directly requests a pattern forbidden here, name the conflict and ask before changing it (R-37).
+- Run the "Copywriting Checklist" before delivering copy. The core's verification standard is task-specific; prose-only work does not need a UI click-through.
+
+## Copy-specific rules
+
+- **R-02 — Em dash:** by default, do not use the em dash in copy written by the agent. Prefer a period, comma, colon, parentheses, or a rewritten sentence. User-provided samples are direction, not agent-written copy; if a sample conflicts with this rule, surface the conflict and ask. Only match its em dash use if the user explicitly keeps that pattern. This rule file and its examples are documentation and are exempt.
+- **R-15 — Calls to action:** write a CTA for the actual product and action. Avoid generic defaults such as "Get Started", "Learn More", "Try Now", "Explore", and "Discover".
+- **R-16 — Buzzwords:** avoid vague marketing terms such as "AI Powered", "Next Generation", "Revolutionary", "Seamless", "Cutting Edge", "Intelligent", "Ultimate", "Powerful", and "Effortless". State concrete, supported benefits.
+- **R-28 — FAQ:** include only questions that reflect real concerns of the product's users. If those concerns are unknown, omit the FAQ.
 
 ## Tone & Voice
 
@@ -138,7 +145,7 @@ Read this file with `CORE-FILTER.md` only when a task writes or edits user-facin
   > Attendees can expect keynote sessions, panel discussions, and networking opportunities. They'll leave with innovation, inspiration, and industry insights.
 - **After:**
   > The event includes talks, panels, and time for informal networking between sessions.
-- **Rule:** R-05 (page structure), R-36.
+- **Rule:** C-1 (avoid mechanical defaults without a reason). A three-item list is fine when the source calls for three items.
 
 ### Negative Parallelism and Tailing Negations
 
@@ -249,7 +256,7 @@ Read this file with `CORE-FILTER.md` only when a task writes or edits user-facin
 - **After:**
   > It blends OKRs, KPIs, and visual strategy tools for planning.
 - **Rule:** R-36.
-- **Carve-out:** the structural labels inside the Antislop rules themselves (the `**FORBIDDEN**` / `**REQUIRED**` markers in `CORE-FILTER.md`) are documentation conventions, not the mechanical bold-every-key-term pattern above, and are exempt.
+- **Carve-out:** the structural labels inside the Antislop rule files (such as `**FORBIDDEN**` / `**REQUIRED**`) are documentation conventions, not the mechanical bold-every-key-term pattern above, and are exempt.
 
 ### Excessive Quotation Marks
 
@@ -321,7 +328,7 @@ A clean human writer can hit several patterns above without any AI involvement. 
 - **Unsourced claims.** Most of the web is unsourced. Lack of citations proves nothing.
 - **Secondhand text.** Do not rewrite phrases inside quotations, titles, proper names, or examples where the phrase is being discussed rather than used.
 
-**Look for clusters, not isolated tells.** A single pattern in source material is not evidence of AI. Multiple tells together may justify a closer review. This matches the core's guidance: Part 1 is a diagnostic scan, not a ban list. Apply R-02 separately to copy the agent authors.
+**Look for clusters, not isolated tells.** A single pattern in source material is not evidence of AI. Multiple tells together may justify a closer review. This guide's patterns are diagnostic signals, not a ban list. Apply R-02 separately to copy the agent authors.
 
 ## Signs of human writing (preserve these)
 
@@ -339,7 +346,7 @@ If the user provides a sample of their own writing, match it before rewriting:
 
 1. Read the sample first. Note its sentence lengths, vocabulary, paragraph openings, punctuation, and recurring phrases.
 2. Match those habits instead of merely deleting AI patterns. Do not upgrade casual words or regularize deliberate quirks.
-3. The sample outranks this reference's style guidance, except where R-02 applies. R-02 governs copy the agent authors; a sample that uses em dashes is a direction, so it goes through R-37's conflict protocol, and you match its frequency only if the owner keeps it. R-02 applies in full to any copy the user did not authorize.
+3. The sample outranks this reference's style guidance. If it uses em dashes, name that conflict and ask whether the owner wants the pattern retained; do not silently keep or remove it. R-02 applies to all agent-written copy unless the user explicitly keeps the sample's conflicting pattern.
 
 Without a sample, use the defaults above. Matching the author beats scrubbing the tell.
 
@@ -353,7 +360,7 @@ Run this loop before delivering copy:
 
 ## Copywriting Checklist
 
-Run these alongside the core Delivery Gate when the task is copy work. Every line below must be true:
+Run these for copy work. Every line below must be true:
 
 - [ ] No fabricated numbers, testimonials, names, dates, or claims; everything real or a labeled placeholder (R-17, R-18, R-36, R-38)
 - [ ] Buzzwords from R-16 and the Empty AI Vocabulary list replaced with specific, evidenced language

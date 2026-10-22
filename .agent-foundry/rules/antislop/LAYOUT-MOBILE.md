@@ -6,10 +6,11 @@ Read this file with `CORE-FILTER.md` only when a task changes or reviews respons
 
 ## How to use this reference
 
-- The core holds the purpose test, rule tiers, and Delivery Gate; this file holds responsive and mobile-specific checks.
-- Every entry has the same shape: **Tell** (the pattern), **Why** (why it reads as slop), **Fix** (what to do instead), with the governing core rule cited as R-XX.
+- The core holds shared standards and mode handling; this file holds responsive and mobile-specific checks.
+- Every entry has the same shape: **Tell** (the pattern), **Why** (why it reads as slop), **Fix** (what to do instead), with its governing rule cited as R-XX.
 - The principle behind this reference: **mobile layout is a different layout, not the desktop layout at a smaller size.** It must reflow: re-stack, rescale, and re-order with intent. Every pattern below is a way a layout fails to reflow.
-- Run the "Mobile & Responsive Checklist" at the end of this file alongside the core Delivery Gate when responsive work is in scope.
+- **R-03 — Mobile responsiveness:** design for the full relevant width range, with no horizontal overflow, clipped text, or colliding cards. Keep navigation usable, touch targets at least 44 x 44 px, and spacing coherent across widths.
+- Run the "Mobile & Responsive Checklist" before delivering responsive work, using the core's shared verification standard.
 
 ## Breakpoints
 
@@ -42,13 +43,13 @@ Read this file with `CORE-FILTER.md` only when a task changes or reviews respons
 ### Desktop-Sized Everything
 
 - **Tell:** padding, gaps, hero heights, and card sizes carried unchanged from desktop to mobile, so every section looks blown up on a phone.
-- **Why:** an element sized for a 1440px canvas dominates a 375px one. What reads as confident on desktop becomes oversized on mobile: nothing fits, nothing breathes, and the page feels like it was designed for a screen that is not the one in hand (R-03). Spacing and type should follow the design rhythm (R-05), and that rhythm has a smaller register on mobile.
+- **Why:** an element sized for a 1440px canvas dominates a 375px one. What reads as confident on desktop becomes oversized on mobile: nothing fits, nothing breathes, and the page feels like it was designed for a screen that is not the one in hand (R-03). Spacing and type should follow the design rhythm, which has a smaller register on mobile.
 - **Fix:** give mobile its own size step: a smaller type scale, tighter section padding, smaller gaps. Keep tap targets at their minimum size (see Tap Targets), but shrink everything else with intent at the breakpoint.
 
 ### Fixed Pixel Type
 
 - **Tell:** font sizes in fixed px that never change between desktop and mobile, so headings and body text stay oversized on a phone.
-- **Why:** type that does not respond to the viewport is type sized for one screen. R-03 demands the mobile layout hold up, and R-06 requires typography that improves readability. A headline that spans the whole phone width or a body size tuned for a wide line breaks both.
+- **Why:** type that does not respond to the viewport is type sized for one screen. R-03 demands the mobile layout hold up. A headline that spans the whole phone width or a body size tuned for a wide line breaks both.
 - **Fix:** use fluid type (`clamp()`) so sizes scale with the viewport, or set a smaller type step at the breakpoint. Verify the result at a narrow width (R-35), not just in the desktop preview.
 
 ### 100vh Sections
@@ -60,7 +61,7 @@ Read this file with `CORE-FILTER.md` only when a task changes or reviews respons
 ### Huge Empty Padding
 
 - **Tell:** desktop-scale section padding (96px, 128px) kept on mobile, creating tall empty gaps between sections on a phone.
-- **Why:** padding tuned for a large canvas turns into wasted vertical space on a small one. The page scrolls through emptiness, and the rhythm R-05 calls for becomes a void between every section.
+- **Why:** padding tuned for a large canvas turns into wasted vertical space on a small one. The page scrolls through emptiness, and the intended section rhythm becomes a void between every section.
 - **Fix:** reduce section padding at the breakpoint to a mobile register (roughly half or less), and check that the page scrolls at a natural density instead of through deserts of space.
 
 ## Grids & Stacking
@@ -151,11 +152,11 @@ Read this file with `CORE-FILTER.md` only when a task changes or reviews respons
 
 ## Mobile & Responsive Checklist
 
-Run these alongside the core Delivery Gate when the task is mobile or responsive layout work. All answers must be **yes**:
+Run these for mobile or responsive layout work. All answers must be **yes**:
 
 - [ ] Does the layout reflow into a distinct mobile state rather than a squeezed desktop? (R-03)
 - [ ] Are there defined states across the width range, not just phone and desktop, so tablet and small-laptop widths are never a stretched stack or a crammed grid? (R-03, R-35)
-- [ ] Do sizes (type, padding, gaps, section heights) use a mobile scale, not desktop sizes unchanged? (R-03, R-05)
+- [ ] Do sizes (type, padding, gaps, section heights) use a mobile scale, not desktop sizes unchanged? (R-03)
 - [ ] Do multi-column grids collapse and stack instead of colliding? (R-03)
 - [ ] Is there no horizontal overflow and nothing clipped? (R-03)
 - [ ] Are interactive targets at least 44 x 44 px with spacing between them? (R-03)
