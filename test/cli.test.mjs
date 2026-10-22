@@ -57,23 +57,23 @@ test('help and command arguments are recognized', () => {
   });
 });
 
-test('Windows Git symlink placeholders resolve to local target content', async () => {
+test('Windows Git plugin-reference placeholders resolve to local target content', async () => {
   const fixtureRoot = path.join(temporaryRoot, 'windows-checkout');
   const referencePath = [
     '.agent-foundry',
     'skills',
-    'owasp-secure-agent-playbook',
+    'example-suite',
     'upstream',
     'plugins',
-    'code-security-skills',
+    'example-plugin',
     'skills',
-    'security-guidance',
+    'example-skill',
     'references'
   ].join(path.sep);
   const placeholderPath = path.join(fixtureRoot, referencePath);
   const expectedTarget = '../../../../data';
   const targetData = path.resolve(path.dirname(placeholderPath), expectedTarget);
-  const targetFile = path.join(targetData, 'aisvs', 'C1.1.md');
+  const targetFile = path.join(targetData, 'reference.md');
 
   await mkdir(path.dirname(placeholderPath), { recursive: true });
   await mkdir(path.dirname(targetFile), { recursive: true });
@@ -83,7 +83,7 @@ test('Windows Git symlink placeholders resolve to local target content', async (
 
   const files = await collectTemplateFiles(fixtureRoot);
   const materializedEntry = files.find((file) =>
-    file.relativePath === path.join(referencePath, 'aisvs', 'C1.1.md')
+    file.relativePath === path.join(referencePath, 'reference.md')
   );
   assert.ok(materializedEntry);
   assert.equal(await readFile(materializedEntry.sourcePath, 'utf8'), 'local reference content\n');
@@ -91,10 +91,40 @@ test('Windows Git symlink placeholders resolve to local target content', async (
   const outputRoot = path.join(temporaryRoot, 'windows-materialized');
   await materializeTemplate(fixtureRoot, outputRoot);
   assert.equal(
-    await readFile(path.join(outputRoot, referencePath, 'aisvs', 'C1.1.md'), 'utf8'),
+    await readFile(path.join(outputRoot, referencePath, 'reference.md'), 'utf8'),
     'local reference content\n'
   );
   assert.equal(await hasSymlink(outputRoot), false);
+});
+
+test('configuration references resolve and safe-operations guidance is scaffolded', async () => {
+  const templateFiles = await collectTemplateFiles(repositoryRoot);
+  const guidanceFiles = templateFiles.filter(({ relativePath }) =>
+    relativePath === 'AGENTS.md'
+    || /^\.agent-foundry\/(commands|rules)\//.test(relativePath)
+  );
+  const references = new Set();
+
+  for (const file of guidanceFiles) {
+    const contents = await readFile(file.sourcePath, 'utf8');
+    for (const [, reference] of contents.matchAll(/`(\.agent-foundry\/[^`]+)`/g)) {
+      references.add(reference.replace(/\/+$/, ''));
+    }
+  }
+
+  for (const reference of references) {
+    const pathToCheck = /YYYY-MM-DD|<[^>]+>/.test(reference)
+      ? path.dirname(reference)
+      : reference;
+    await assert.doesNotReject(
+      stat(path.join(repositoryRoot, pathToCheck)),
+      `expected ${pathToCheck} to exist`
+    );
+  }
+
+  assert.ok(templateFiles.some(({ relativePath }) =>
+    relativePath === '.agent-foundry/rules/SAFE-OPERATIONS.md'
+  ));
 });
 
 test('local setup installs a complete app and updates the user PATH idempotently', async () => {
@@ -116,22 +146,16 @@ test('local setup installs a complete app and updates the user PATH idempotently
     await readFile(path.join(paths.appRoot, 'AGENTS.md'), 'utf8'),
     await readFile(path.join(repositoryRoot, 'AGENTS.md'), 'utf8')
   );
+  assert.equal(await readFile(path.join(paths.appRoot, '.agent-foundry', 'tasks', 'todo.md'), 'utf8'), '');
+  assert.equal(await readFile(path.join(paths.appRoot, '.agent-foundry', 'tasks', 'lessons.md'), 'utf8'), '');
   assert.equal(await hasSymlink(path.join(paths.appRoot, '.agent-foundry')), false);
-  const referenceFile = path.join(
+  const safeOperationsFile = path.join(
     paths.appRoot,
     '.agent-foundry',
-    'skills',
-    'owasp-secure-agent-playbook',
-    'upstream',
-    'plugins',
-    'code-security-skills',
-    'skills',
-    'security-guidance',
-    'references',
-    'aisvs',
-    'C1.1.md'
+    'rules',
+    'SAFE-OPERATIONS.md'
   );
-  assert.ok((await readFile(referenceFile, 'utf8')).length > 0);
+  assert.match(await readFile(safeOperationsFile, 'utf8'), /^# Safe Operations & Data Protection/m);
   assert.ok((await readFile(path.join(paths.binDir, 'agent-foundry'), 'utf8')).includes('cli.mjs'));
   assert.ok((await stat(path.join(paths.binDir, 'agent-foundry'))).mode & 0o111);
 
@@ -270,27 +294,9 @@ test('--force installs the complete bundle and replaces file conflicts', async (
   assert.equal(await readFile(path.join(target, '.agent-foundry', 'tasks', 'lessons.md'), 'utf8'), '');
   assert.equal(await hasSymlink(target), false);
 
-  const impeccableSkill = await readFile(
-    path.join(target, '.agent-foundry', 'skills', 'impeccable', 'SKILL.md'),
+  const safeOperationsGuide = await readFile(
+    path.join(target, '.agent-foundry', 'rules', 'SAFE-OPERATIONS.md'),
     'utf8'
   );
-  const materializedReference = await readFile(
-    path.join(
-      target,
-      '.agent-foundry',
-      'skills',
-      'owasp-secure-agent-playbook',
-      'upstream',
-      'plugins',
-      'code-security-skills',
-      'skills',
-      'security-guidance',
-      'references',
-      'aisvs',
-      'C1.1.md'
-    ),
-    'utf8'
-  );
-  assert.ok(impeccableSkill.startsWith('---'));
-  assert.ok(materializedReference.length > 0);
+  assert.match(safeOperationsGuide, /^# Safe Operations & Data Protection/m);
 });

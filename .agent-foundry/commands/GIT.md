@@ -9,7 +9,14 @@
     -   `fix/<ticket>-<slug>`
     -   `hotfix/<ticket>-<slug>`
 
--   Delete branches after merge.
+-   Delete a branch only after it is merged and its exact name is within the authorized scope.
+
+## Safety
+
+-   Before Git changes, inspect the working tree, staged diff, and exact target branch or remote; preserve unrelated user changes.
+-   Never read or expose secrets. Do not commit secret values, credentials, or sensitive data; redact them from output and commit messages.
+-   Push, force-push, reset, clean, or delete a branch only when the user explicitly authorized that operation and its target. A direct request scoped to that operation and target is authorization. Do not use a broad command that affects unrelated branches or work.
+-   Follow `.agent-foundry/rules/SAFE-OPERATIONS.md` for detailed handling of sensitive data and destructive operations.
 
 ## Commits
 

@@ -19,21 +19,19 @@ import { fileURLToPath } from 'node:url';
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const pathSeparator = path.sep;
 
-// Git for Windows may check these tracked symlinks out as ordinary files.
-const checkoutSymlinkPlaceholders = new Map([
-  [
-    '.agent-foundry/skills/owasp-secure-agent-playbook/upstream/plugins/code-security-skills/skills/securability-engineering-review/references',
-    '../../../../data'
-  ],
-  [
-    '.agent-foundry/skills/owasp-secure-agent-playbook/upstream/plugins/code-security-skills/skills/securability-engineering/references',
-    '../../../../data'
-  ],
-  [
-    '.agent-foundry/skills/owasp-secure-agent-playbook/upstream/plugins/code-security-skills/skills/security-guidance/references',
-    '../../../../data'
-  ]
+// Git for Windows may check plugin reference symlinks out as ordinary files.
+const pluginReferencesPath =
+  /^\.agent-foundry\/skills\/[^/]+\/upstream\/plugins\/[^/]+\/skills\/[^/]+\/references$/;
+const pluginReferencesTarget = '../../../../data';
+const emptyTaskRecordFiles = new Set([
+  path.join('.agent-foundry', 'tasks', 'todo.md'),
+  path.join('.agent-foundry', 'tasks', 'lessons.md')
 ]);
+
+async function readTemplateFile(file) {
+  if (emptyTaskRecordFiles.has(file.relativePath)) return '';
+  return readFile(file.sourcePath);
+}
 
 export function printHelp(write = (message) => process.stdout.write(message)) {
   write([
@@ -102,12 +100,13 @@ async function resolveSourceEntry(sourcePath, relativePath, sourceBoundary) {
 
   if (entryStats.isSymbolicLink()) {
     resolvedPath = await realpath(sourcePath);
-  } else if (entryStats.isFile() && checkoutSymlinkPlaceholders.has(portableRelativePath)) {
-    const expectedTarget = checkoutSymlinkPlaceholders.get(portableRelativePath);
+  } else if (entryStats.isFile() && pluginReferencesPath.test(portableRelativePath)) {
     const contents = (await readFile(sourcePath, 'utf8')).trim();
 
-    if (contents === expectedTarget) {
-      resolvedPath = await realpath(path.resolve(path.dirname(sourcePath), expectedTarget));
+    if (contents === pluginReferencesTarget) {
+      resolvedPath = await realpath(
+        path.resolve(path.dirname(sourcePath), pluginReferencesTarget)
+      );
     }
   }
 
@@ -175,7 +174,7 @@ export async function materializeTemplate(sourceRoot, destinationRoot) {
   for (const file of files) {
     const destinationPath = path.join(destinationRoot, file.relativePath);
     await mkdir(path.dirname(destinationPath), { recursive: true });
-    await writeFile(destinationPath, await readFile(file.sourcePath));
+    await writeFile(destinationPath, await readTemplateFile(file));
     const sourceStats = await stat(file.sourcePath);
     await chmod(destinationPath, sourceStats.mode & 0o777);
   }
@@ -297,7 +296,7 @@ async function writeSelectedFiles(targetRoot, files, conflicts, choices) {
 
     const destinationPath = path.join(targetRoot, file.relativePath);
     await mkdir(path.dirname(destinationPath), { recursive: true });
-    await writeFile(destinationPath, await readFile(file.sourcePath));
+    await writeFile(destinationPath, await readTemplateFile(file));
     const sourceStats = await stat(file.sourcePath);
     await chmod(destinationPath, sourceStats.mode & 0o777);
     installed.push(file.relativePath);

@@ -2,6 +2,13 @@
 
 Use these shared rules across agents. Follow more specific project or task instructions when they apply, while preserving the user's requested scope.
 
+## Safety & Data Protection
+
+- Never open, read, or print secret files or values, including `.env` files, credentials, private keys, passwords, and tokens. Use redacted input; for secret scans, use only a method that reports locations and categories without exposing values. If that is unavailable, explain the limitation and give the user safe local steps.
+- Minimize access to personal or production data, and redact sensitive evidence in chat, logs, reports, diffs, and commits.
+- Before editing or deleting, inspect the working tree and exact targets; preserve unrelated user changes. Run a destructive action only when its exact action and target are authorized. A directly scoped request authorizes that scope; pause if impact is unclear or would expand beyond it.
+- Require explicit authorization for external side effects such as pushing, deploying, publishing, or sending messages. For detailed procedures on sensitive-data handling or destructive operations, follow `.agent-foundry/rules/SAFE-OPERATIONS.md`.
+
 ## Understand the Project and Request
 
 - Treat the user's request and the repository's current state as the source of truth. Inspect relevant files and instructions before changing anything.
@@ -63,8 +70,8 @@ Use these shared rules across agents. Follow more specific project or task instr
 
 - For frontend UI or UX work, invoke the `impeccable` skill and follow its task-matched workflow and references. If it is missing from the active agent's skill catalog, install it from `pbakaus/impeccable` with that environment's supported skill installer, verify it is available, then invoke it.
 - Apply Antislop only when task scope matches. In `.agent-foundry/rules/antislop/`, read `CORE-FILTER.md` plus only the matching specialist: `UI.md` for interface visuals or interaction patterns, `COPYWRITING.md` for user-facing copy or prose, and `LAYOUT-MOBILE.md` for responsive or mobile behavior. For mixed work, read only the matching specialists. Skip all Antislop files for unrelated tasks, and resolve its usage mode only after a scope match.
-- For security reviews or audits, invoke the installed OWASP skill matching the target by its exact catalog name, including its namespace. Prefer `owasp-secure-agent-playbook` as the router; otherwise choose a target-specific skill. If missing, install the relevant skill or package from `OWASP/secure-agent-playbook` with the active agent's supported installer, verify it, then invoke it.
-- Treat skill names as agent-environment invocations, not project file paths. Install a missing task-relevant skill before starting work that depends on it. Follow the installed skill's complete procedure and load the references it identifies.
+- For security reviews or audits, invoke an installed target-specific security skill by its exact catalog name, including its namespace. Do not route through a security playbook. If no matching skill is installed, use relevant project guidance; do not install a security package unless the user requests it.
+- Treat skill names as agent-environment invocations, not project file paths. Install a missing task-relevant skill only when its routing instruction calls for installation or the user requests it. Follow the installed skill's complete procedure and load the references it identifies.
 
 ## Living Project Documents
 
