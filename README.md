@@ -61,6 +61,7 @@ Optional tool integrations. Use them when they match the task and are available 
 
 | MCP server | Recommended use |
 | --- | --- |
+| [FigCraft MCP](https://github.com/storytold/figcraft) | Create and edit designs, inspect documents as JSON, and render previews. |
 | [Pencil MCP](https://github.com/highagency/pencil-desktop-releases) | Reading or editing Pencil designs and `.pen` files. |
 | [Playwright MCP](https://github.com/microsoft/playwright-mcp) | Browser-based user flows and end-to-end checks. |
 | [Chrome DevTools MCP](https://github.com/ChromeDevTools/chrome-devtools-mcp) | Runtime diagnostics for console, network, styles, performance, or memory. |
