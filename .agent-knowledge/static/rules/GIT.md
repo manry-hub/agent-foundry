@@ -5,9 +5,11 @@
 - Create short-lived branches from `main`.
 - Naming:
 
-  - `feature/<ticket>-<slug>`
-  - `fix/<ticket>-<slug>`
-  - `hotfix/<ticket>-<slug>`
+  - `feature/<slug>`
+  - `fix/<slug>`
+  - `hotfix/<slug>`
+
+  Add a ticket prefix only when the project uses ticket tracking and the work has a ticket, for example `feature/PROJ-123-<slug>`.
 
 - Delete a branch only after it is merged and its exact name is within the authorized scope.
 

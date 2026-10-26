@@ -10,3 +10,4 @@
 - When a living design guide can evolve during development, state its update rule beside its AGENTS.md pointer.
 - When AGENTS.md duplicates a detailed procedure, retain only a scoped pointer to the procedure's source document.
 - When documenting an AI pipeline, show the decision flow after AGENTS.md is read rather than the installation flow.
+- When defining branch names, make ticket prefixes optional unless the project requires a ticket for every change.
