@@ -6,7 +6,7 @@ Safety rules:
 - Preserve unrelated and uncommitted user changes. Before proposing or deleting files, inspect the working tree and verify each exact target.
 - Never open, read, or print secret files or values. Redact personal or production data from evidence and reports.
 - In Phase 2, change or delete only the exact items the user approved. Stop if the target differs, the impact is unclear, or the work would exceed the approved scope.
-- Follow `.agent-foundry/rules/SAFE-OPERATIONS.md` for detailed data-handling and destructive-operation guidance.
+- Follow `.agent-knowledge/static/rules/SAFE-OPERATIONS.md` for detailed data-handling and destructive-operation guidance.
 
 PHASE 1 — AUDIT (make zero changes):
 Find and list, with evidence that each is genuinely unused:
