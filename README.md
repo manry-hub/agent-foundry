@@ -9,6 +9,14 @@ flowchart TD
   task([AI receive the prompt]) --> agents[Read AGENTS.md]
   agents --> universal[Apply universal workflow rules]
 
+  agents --> orca{User requests Orca multi-agent workflow?}
+  orca -->|Yes| orcaRules[Read ORCA-ORCHESTRATION.md]
+  orcaRules --> planner[Planning session analyzes without editing]
+  planner --> approval{User approves plan?}
+  approval -->|Yes| isolation[Create isolated branch and worktree per scope]
+  isolation --> implementers[Implementation sessions own separate files]
+  implementers --> integration[Integration session verifies approved merges]
+
   agents --> safety{Sensitive data, destructive action, or external side effect?}
   safety -->|Yes| safe[Read SAFE-OPERATIONS.md]
 
@@ -42,6 +50,14 @@ flowchart TD
   taskReport --> execute
   lessonReport --> execute
 ```
+
+## Optional Orca workflow: plan → isolated scopes → integration
+
+When a user explicitly asks for multi-agent orchestration, role separation, or parallel work in Orca, first use a read-only planning session. It defines the scope, contracts, file ownership, dependencies, acceptance criteria, and integration approach; implementation begins only after the user explicitly approves that plan.
+
+For each independent scope, create a feature branch and a genuinely separate worktree before opening its implementation session. One writing session owns each branch and its files. Verify the branch and physical checkout for every session—multiple Orca workspaces pointing to the same checkout are not isolated and must not be used for parallel writers.
+
+Each implementation session changes only its approved scope, runs its relevant checks, and reports its commit, changed files, verification, and blockers. A dedicated integration session merges completed scope branches into an integration branch, runs combined verification, and follows the project's normal review or pull-request process rather than merging directly into `main`. The workflow is provider-agnostic and has no automatic review-agent stage.
 
 ## Recommended Skills
 

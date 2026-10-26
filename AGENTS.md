@@ -16,6 +16,7 @@ Use these shared rules across agents. Follow more specific project or task instr
 ## Plan and Implement Proportionately
 
 - For substantial, multi-step, or architectural work, define the outcome, scope, assumptions, and observable completion criteria, then outline a concise plan. Use the active agent's planning features when available; small, clear tasks can proceed directly.
+- When the user explicitly requests Orca multi-agent orchestration, role separation, or parallel work, follow `.agent-knowledge/static/rules/ORCA-ORCHESTRATION.md`. 
 - If an important assumption proves false, the approach stops working, or the scope must materially change, pause to explain the change and revise the plan. Get user input when the new scope or decision is not already authorized.
 - Prefer the simplest maintainable solution that meets the request. Avoid speculative features, dependencies, abstractions, or rewrites without a concrete need.
 - Keep changes surgical: follow the project's architecture and conventions, limit edits to the request and its necessary consequences, remove only artifacts made obsolete by the change, and investigate root causes instead of masking them with avoidable workarounds.
@@ -44,3 +45,4 @@ Use these shared rules across agents. Follow more specific project or task instr
 - Consult `.agent-knowledge/dynamic/docs/README.md` for the document mapping and update rules.
 - After a material feature addition, change, or removal, update or retire only the affected information in relevant documents. Treat the listed topics as prompts rather than mandatory headings; keep useful sections concise, leave unknowns explicit, and do not invent decisions.
 - Keep external research distinct from project facts. When research is requested or supplied, record its sources and dates and label recommendations or proposed designs; describe the current system using project evidence such as configuration, schemas, migrations, models, and queries. Do not repeat web research during routine implementation unless requested.
+
