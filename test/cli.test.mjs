@@ -283,7 +283,8 @@ test('configuration references resolve and safe-operations guidance is scaffolde
   assert.doesNotMatch(agentsGuide, /Never open, read, or print secret files/);
   assert.doesNotMatch(agentsGuide, /MCP Tool Routing|CODING-STANDARDS\.md/);
   const repositoryReadme = await readFile(path.join(repositoryRoot, 'README.md'), 'utf8');
-  assert.match(repositoryReadme, /## MCP & Skill Recommendations/);
+  assert.match(repositoryReadme, /## Recommended Skills/);
+  assert.match(repositoryReadme, /## Recommended MCP Servers/);
   assert.match(repositoryReadme, /Context7 MCP/);
 });
 

@@ -2,44 +2,11 @@
 
 AgentKnowledge installs shared agent guidance and skills into software projects with a local CLI. It does not require npm publishing or an npm registry.
 
-## Requirements
-
-- Node.js 18 or newer
-- A checkout of this repository
-
-## One-time setup
-
-From this repository, run:
-
-    node install.mjs
-
-The installer copies the current configuration into your per-user application directory, creates a launcher, and adds its directory to your user PATH. Existing AgentFoundry installations are left untouched: they are not moved, updated, aliased, or removed. Open a new terminal after setup.
-
-## Use from a software project
-
-From the project directory, install the configuration into the current project:
-
-    agent-knowledge init
-
-Pass a target directory to install somewhere else:
-
-    agent-knowledge init ./my-project
-
-The CLI merges directories and asks before replacing each conflicting file in an interactive terminal. If conflicts exist in a non-interactive environment, it stops before writing. Use --force to replace all conflicting files:
-
-    agent-knowledge init ./my-project --force
-
---force replaces only files that conflict with the bundled configuration; it does not remove unrelated files.
-
-## Updating the installed configuration
-
-Update this repository to the revision you want, then run node install.mjs again from the checkout. The installer refreshes its managed local copy. Existing projects are not changed; run agent-knowledge init in each project to apply updates there.
-
 ## AI Decision Pipeline
 
 ```mermaid
 flowchart TD
-  task([AI menerima tugas]) --> agents[Read AGENTS.md]
+  task([AI receive the prompt]) --> agents[Read AGENTS.md]
   agents --> universal[Apply universal workflow rules]
 
   agents --> safety{Sensitive data, destructive action, or external side effect?}
@@ -76,20 +43,62 @@ flowchart TD
   lessonReport --> execute
 ```
 
-## MCP & Skill Recommendations
+## Recommended Skills
 
-These are optional recommendations. Use a capability only when it matches the task and is available in the current environment.
+Optional agent skills for focused workflows. Use them when they fit the task and are available in your agent environment.
 
-| Capability | Recommended use |
+| Skill | Recommended use |
 | --- | --- |
-| `codebase-memory` | Structural codebase questions and impact analysis. |
-| `impeccable` | UI or UX design, review, and refinement. |
-| Target-specific security skill | Security reviews and audits. |
-| Pencil MCP | Reading or editing Pen designs and `.pen` files. |
-| Playwright MCP | Browser-based user flows and end-to-end checks. |
-| Chrome DevTools MCP | Runtime diagnostics: console, network, styles, performance, or memory. |
-| Context7 MCP | Current documentation for libraries, frameworks, SDKs, APIs, CLIs, or cloud services. |
-| Sequential Thinking MCP | Complex or uncertain multi-step analysis and planning. |
+| [codebase-memory](https://github.com/DeusData/codebase-memory-mcp) | Structural codebase questions and impact analysis. |
+| [impeccable](https://github.com/pbakaus/impeccable) | UI and UX design, review, and refinement. |
+| [Taste Skill](https://github.com/leonxlnx/taste-skill) | Stronger visual direction and frontend design quality. |
+| [Matt Pocock's Skills](https://github.com/mattpocock/skills) | Engineering workflows and reusable development practices. |
+| [OWASP Secure Agent Playbook](https://github.com/OWASP/secure-agent-playbook) | Security reviews, audits, and agent security workflows. |
+
+## Recommended MCP Servers
+
+Optional tool integrations. Use them when they match the task and are available in your agent environment.
+
+| MCP server | Recommended use |
+| --- | --- |
+| [Pencil MCP](https://github.com/highagency/pencil-desktop-releases) | Reading or editing Pencil designs and `.pen` files. |
+| [Playwright MCP](https://github.com/microsoft/playwright-mcp) | Browser-based user flows and end-to-end checks. |
+| [Chrome DevTools MCP](https://github.com/ChromeDevTools/chrome-devtools-mcp) | Runtime diagnostics for console, network, styles, performance, or memory. |
+| [Context7 MCP](https://github.com/upstash/context7) | Current documentation for libraries, frameworks, SDKs, APIs, CLIs, or cloud services. |
+| [Sequential Thinking MCP](https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking) | Complex or uncertain multi-step analysis and planning. |
+
+## Requirements
+
+- Node.js 18 or newer
+- A checkout of this repository
+
+## One-time setup
+
+From this repository, run:
+
+    node install.mjs
+
+The installer copies the current configuration into your per-user application directory, creates a launcher, and adds its directory to your user PATH. Existing AgentFoundry installations are left untouched: they are not moved, updated, aliased, or removed. Open a new terminal after setup.
+
+## Use from a software project
+
+From the project directory, install the configuration into the current project:
+
+    agent-knowledge init
+
+Pass a target directory to install somewhere else:
+
+    agent-knowledge init ./my-project
+
+The CLI merges directories and asks before replacing each conflicting file in an interactive terminal. If conflicts exist in a non-interactive environment, it stops before writing. Use --force to replace all conflicting files:
+
+    agent-knowledge init ./my-project --force
+
+--force replaces only files that conflict with the bundled configuration; it does not remove unrelated files.
+
+## Updating the installed configuration
+
+Update this repository to the revision you want, then run node install.mjs again from the checkout. The installer refreshes its managed local copy. Existing projects are not changed; run agent-knowledge init in each project to apply updates there.
 
 ## Development checks
 
