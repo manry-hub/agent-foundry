@@ -59,6 +59,20 @@ For each independent scope, create a feature branch and a genuinely separate wor
 
 Each implementation session changes only its approved scope, runs its relevant checks, and reports its commit, changed files, verification, and blockers. A dedicated integration session merges completed scope branches into an integration branch, runs combined verification, and follows the project's normal review or pull-request process rather than merging directly into `main`. The workflow is provider-agnostic and has no automatic review-agent stage.
 
+### Orca request examples
+
+Use an explicit request when a task needs a handoff, a dependent sequence, or isolated parallel scopes. A handoff should name the goal, current context, relevant files or worktree, expected result, and next action.
+
+> Use /orchestration to hand this billing settings task to the idle Claude agent. Include the goal, current context, and what they should finish next.
+
+> Use /orchestration to hand this settings cleanup to the agent in the settings-polish worktree. Send the goal, relevant files, and expected result.
+
+> Use /orchestration to run this auth refactor in phases: plan, backend, UI, then tests. Start each child agent after the previous phase is done.
+
+> Use /orchestration to split this auth refactor across parallel child agents: API contract, backend call sites, UI flow, and test gaps.
+
+> Use /orchestration to split this onboarding update into smaller PRs, each in its own child worktree: setup state, settings UI, copy, and tests.
+
 ## Recommended Skills
 
 Optional agent skills for focused workflows. Use them when they fit the task and are available in your agent environment.

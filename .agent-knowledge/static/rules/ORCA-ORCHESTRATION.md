@@ -40,3 +40,36 @@ Use this workflow only when the user explicitly requests multi-agent orchestrati
 - Use structured Orca coordination only when the user requests supervision, structured status, a dependency DAG, or ask/reply flows. Use worktree and terminal commands for ordinary handoffs.
 - If a worktree cannot be created as a separate checkout, do not simulate parallel work in one folder. Work sequentially or repair isolation first.
 
+## Request Patterns
+
+Use these patterns when the user explicitly requests Orca coordination. A handoff must include the goal, the current state, the relevant files or worktree, the expected result, and the next action. Read the target terminal's status before sending it.
+
+### Hand off an active task
+
+Move ownership to an idle agent with enough context to continue:
+
+> Use /orchestration to hand this billing settings task to the idle Claude agent. Include the goal, current context, and what they should finish next.
+
+### Hand off to another worktree
+
+Move work to an agent already working from a different branch. Include the target worktree as well as the handoff context:
+
+> Use /orchestration to hand this settings cleanup to the agent in the settings-polish worktree. Send the goal, relevant files, and expected result.
+
+### Run a phased workflow
+
+Use sequential child agents only where each phase depends on the previous one. Start the next phase after the preceding agent reports completion and its output is available:
+
+> Use /orchestration to run this auth refactor in phases: plan, backend, UI, then tests. Start each child agent after the previous phase is done.
+
+### Run independent work in parallel
+
+Split only non-overlapping scopes. Give every implementation agent a separate branch, worktree, and explicit file ownership before work starts:
+
+> Use /orchestration to split this auth refactor across parallel child agents: API contract, backend call sites, UI flow, and test gaps.
+
+### Split a large change into smaller PRs
+
+Create one child worktree and reviewable branch per independently shippable scope. Preserve the approved contract and use the integration workflow for dependencies:
+
+> Use /orchestration to split this onboarding update into smaller PRs, each in its own child worktree: setup state, settings UI, copy, and tests.
