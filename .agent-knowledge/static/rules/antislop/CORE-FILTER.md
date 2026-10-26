@@ -43,7 +43,7 @@ For read-only work, put the mode notice at the start of the final answer. For ed
 > Which one, 1 or 2?
 
 - **During:** apply only the matching specialist rules during planning, drafting, and implementation, then complete that guide's checklist.
-- **After:** audit only the matching scope. Write a numbered findings list to `.agent-foundry/tasks/antislop-audit-001-YYYY-MM-DD.md`, continuing the sequence if an earlier audit exists. Each finding cites its R rule and a one-line reason. Do not edit until the user chooses finding numbers; then fix only those and add a follow-up report in the same task area.
+- **After:** audit only the matching scope. Write a numbered findings list to `.agent-knowledge/dynamic/reports/tasks/{incremental-number}-antislop-audit.md`, continuing the sequence if an earlier report exists. Each finding cites its R rule and a one-line reason. Do not edit until the user chooses finding numbers; then fix only those and add a follow-up report in the same task area.
 
 Audit priorities follow the rule tiers:
 

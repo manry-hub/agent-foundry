@@ -4,7 +4,7 @@ Safety rules:
 
 - Never open, read, or print secret files or secret values. For secret detection, use a scanner that redacts values and reports only file, category, and finding status. If no such method is available, mark the category unverified and give the user safe local scan steps.
 - Redact personal, production, and credential data from evidence, logs, reports, and chat. Use placeholders in example fixes; never include real secret values.
-- Follow `.agent-foundry/rules/SAFE-OPERATIONS.md` for detailed data-handling rules. This audit is read-only; do not modify files or trigger external side effects.
+- Follow `.agent-knowledge/static/rules/SAFE-OPERATIONS.md` for detailed data-handling rules. This audit is read-only; do not modify files or trigger external side effects.
 
 Review for:
 

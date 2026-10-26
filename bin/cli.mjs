@@ -21,23 +21,23 @@ const pathSeparator = path.sep;
 
 // Git for Windows may check plugin reference symlinks out as ordinary files.
 const pluginReferencesPath =
-  /^\.agent-foundry\/skills\/[^/]+\/upstream\/plugins\/[^/]+\/skills\/[^/]+\/references$/;
+  /^\.agent-knowledge\/skills\/[^/]+\/upstream\/plugins\/[^/]+\/skills\/[^/]+\/references$/;
 const pluginReferencesTarget = '../../../../data';
-const emptyTaskRecordFiles = new Set([
-  path.join('.agent-foundry', 'tasks', 'todo.md'),
-  path.join('.agent-foundry', 'tasks', 'lessons.md')
+const emptyDynamicRecordFiles = new Set([
+  path.join('.agent-knowledge', 'dynamic', 'reports', 'LESSON.md')
 ]);
+const dynamicTaskReportPath = /^\.agent-knowledge\/dynamic\/reports\/tasks\/.+\.md$/;
 
 async function readTemplateFile(file) {
-  if (emptyTaskRecordFiles.has(file.relativePath)) return '';
+  if (emptyDynamicRecordFiles.has(file.relativePath)) return '';
   return readFile(file.sourcePath);
 }
 
 export function printHelp(write = (message) => process.stdout.write(message)) {
   write([
-    'Usage: agent-foundry init [target-dir] [--force]',
+    'Usage: agent-knowledge init [target-dir] [--force]',
     '',
-    'Install AGENTS.md and .agent-foundry/ into a project directory.',
+    'Install AGENTS.md and .agent-knowledge/ into a project directory.',
     '',
     'Options:',
     '  -f, --force  Replace every conflicting file without prompting',
@@ -111,7 +111,7 @@ async function resolveSourceEntry(sourcePath, relativePath, sourceBoundary) {
   }
 
   if (!isWithinDirectory(sourceBoundary, resolvedPath)) {
-    throw new Error('Template entry resolves outside the AgentFoundry directory: ' + relativePath);
+    throw new Error('Template entry resolves outside the AgentKnowledge directory: ' + relativePath);
   }
 
   const resolvedStats = await stat(resolvedPath);
@@ -148,6 +148,8 @@ async function collectEntry(sourcePath, relativePath, sourceBoundary, entries, a
     throw new Error('The template contains an unsupported filesystem entry: ' + relativePath);
   }
 
+  if (dynamicTaskReportPath.test(relativePath.split(pathSeparator).join('/'))) return;
+
   entries.push({ relativePath, sourcePath: resolvedPath });
 }
 
@@ -155,7 +157,7 @@ export async function collectTemplateFiles(sourceRoot = packageRoot) {
   const sourceBoundary = await realpath(sourceRoot);
   const entries = [];
 
-  for (const relativePath of ['AGENTS.md', '.agent-foundry']) {
+  for (const relativePath of ['AGENTS.md', '.agent-knowledge']) {
     await collectEntry(
       path.join(sourceBoundary, relativePath),
       relativePath,
@@ -363,7 +365,7 @@ async function main() {
 
     await init(parsed);
   } catch (error) {
-    process.stderr.write('agent-foundry: ' + error.message + '\n');
+    process.stderr.write('agent-knowledge: ' + error.message + '\n');
     process.exitCode = 1;
   }
 }

@@ -1,6 +1,6 @@
 # Safe Operations & Data Protection
 
-Use these procedures whenever a task touches secrets or sensitive data, deletes or overwrites data, changes Git history or branches, or causes an external side effect. The shared summary in `AGENTS.md` always applies.
+Use these procedures whenever a task touches secrets or sensitive data, deletes or overwrites data, changes Git history or branches, or causes an external side effect. This is the single source of safety and data-protection procedures.
 
 ## Secrets and sensitive data
 
