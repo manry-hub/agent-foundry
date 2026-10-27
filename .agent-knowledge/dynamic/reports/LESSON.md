@@ -11,3 +11,4 @@
 - When AGENTS.md duplicates a detailed procedure, retain only a scoped pointer to the procedure's source document.
 - When documenting an AI pipeline, show the decision flow after AGENTS.md is read rather than the installation flow.
 - When defining branch names, make ticket prefixes optional unless the project requires a ticket for every change.
+- When maintaining `.agent-knowledge`, write all instructions, templates, examples, and placeholders in professional English; scan the full directory for other-language remnants before completing the change.
