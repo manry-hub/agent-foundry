@@ -1,17 +1,28 @@
-# Git Workflow Rules
+# Gitflow Workflow Rules
 
-## Branches
+This repository uses Gitflow. `main` represents production releases and `develop` is the shared integration branch for the next release.
 
-- Create short-lived branches from `main`.
-- Naming:
+## Permanent Branches
 
-  - `feature/<slug>`
-  - `fix/<slug>`
-  - `hotfix/<slug>`
+- `main` contains only production-ready, versioned releases.
+- `develop` contains the integrated work targeted for the next release.
 
-  Add a ticket prefix only when the project uses ticket tracking and the work has a ticket, for example `feature/PROJ-123-<slug>`.
+Do not develop directly on either permanent branch.
 
-- Delete a branch only after it is merged and its exact name is within the authorized scope.
+## Supporting Branches
+
+| Branch | Create from | Merge into | Purpose |
+| --- | --- | --- | --- |
+| `feature/<slug>` | `develop` | `develop` | New functionality and non-production bug fixes. |
+| `release/<version>` | `develop` | `main` and `develop` | Release preparation: versioning, release notes, stabilization, and release-only fixes. |
+| `hotfix/<slug>` | `main` | `main` and `develop` | Urgent production fix. |
+
+Add a ticket prefix only when the project uses ticket tracking and the work has a ticket, for example `feature/PROJ-123-<slug>`.
+
+- Start each `feature/*` branch from the current `develop` branch, then open its pull request to `develop`.
+- Start `release/*` only when `develop` is ready to stabilize. After approval, merge it into `main`, tag the release, and merge the same release changes back into `develop`.
+- Start `hotfix/*` from the current `main` branch. After approval, merge it into `main`, tag the patch release, and merge the same fix back into `develop`.
+- Delete a supporting branch only after all of its required merges are complete and its exact name is within the authorized scope.
 
 ## Safety
 
@@ -34,9 +45,11 @@ Rules:
 - Imperative subject, no trailing period.
 - Do not commit secrets, build artifacts, or dependencies.
 
-## Before Opening a PR
+## Before Opening a Pull Request
 
-- Rebase onto the latest `main`.
+- Rebase onto the latest source branch (`develop` for features and releases; `main` for hotfixes).
+- Use the required target branch: `develop` for features, `main` for releases and hotfixes.
+- For a release or hotfix, open the required follow-up pull request into `develop` after the production merge.
 - Squash WIP/fixup commits.
 - Ensure tests pass locally.
 
@@ -50,4 +63,5 @@ Rules:
 
 ## Protected Branches
 
-- `main` is protected and can only be updated through reviewed pull requests.
+- `main` is protected and can only be updated through reviewed release or hotfix pull requests.
+- `develop` is protected and can only be updated through reviewed feature, release-backmerge, or hotfix-backmerge pull requests.

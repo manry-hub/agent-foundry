@@ -57,7 +57,7 @@ When a user explicitly asks for multi-agent orchestration, role separation, or p
 
 For each independent scope, create a feature branch and a genuinely separate worktree before opening its implementation session. One writing session owns each branch and its files. Verify the branch and physical checkout for every session—multiple Orca workspaces pointing to the same checkout are not isolated and must not be used for parallel writers.
 
-Each implementation session changes only its approved scope, runs its relevant checks, and reports its commit, changed files, verification, and blockers. A dedicated integration session merges completed scope branches into an integration branch, runs combined verification, and follows the project's normal review or pull-request process rather than merging directly into `main`. The workflow is provider-agnostic and has no automatic review-agent stage.
+Each implementation session changes only its approved scope, runs its relevant checks, and reports its commit, changed files, verification, and blockers. A dedicated integration session merges completed feature scope branches into `develop`, runs combined verification, and follows the Gitflow review or pull-request process: production changes reach `main` only through a reviewed `release/*` or `hotfix/*` branch. The workflow is provider-agnostic and has no automatic review-agent stage.
 
 ### Orca request examples
 
