@@ -10,5 +10,9 @@ Use this index to select only the project documents relevant to the task. Treat 
 | `dev/sdd/DATABASE.md` | Database topology, schema, relations, indexes, migrations, and seed data. |
 | `prod/NETWORK-TOPOLOGY.md` | Production network topology, exposure, routing, ports, firewall, DNS, TLS, and monitoring. |
 | `prod/DEPLOYMENT.md` | Deployment strategy, procedures, rollback, environment management, and operational monitoring. |
+| `notes/ADR-{incremental-number}-{adr-summary}.md` | A durable architectural decision, its context, and its consequences. |
+| `notes/SPEC-{incremental-number}-{spec-summary}.md` | An implementation-facing behavior, interface, data, or integration contract. |
+
+For substantial multi-stage implementation work, use `../workflows/{incremental-number}-{workflow-summary}.md` as the staged execution plan. Create documents from their corresponding templates in `../../static/templates/` and retain the requested numeric prefix.
 
 Update or retire only the document sections affected by a material feature, change, or removal.

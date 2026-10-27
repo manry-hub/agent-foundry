@@ -30,6 +30,9 @@ Use these shared rules across agents. Follow more specific project or task instr
 ## Task Records and Corrections
 
 - For substantial or long-running work, create the next numbered report under `.agent-knowledge/dynamic/reports/tasks/` using `.agent-knowledge/static/templates/TASKS-TEMPLATE.md`. The template is the sole source for report structure.
+- For substantial, multi-stage implementation work, create the next numbered execution plan under `.agent-knowledge/dynamic/workflows/` using `.agent-knowledge/static/templates/WORKFLOW-TEMPLATE.md` before implementation begins. The template is the sole source for workflow structure.
+- Record a material architectural decision in `.agent-knowledge/dynamic/docs/notes/ADR-{incremental-number}-{adr-summary}.md` using `.agent-knowledge/static/templates/ADR-TEMPLATE.md` when it sets a durable technical direction or meaningfully changes one.
+- Record a material, implementation-facing behavior or integration contract in `.agent-knowledge/dynamic/docs/notes/SPEC-{incremental-number}-{spec-summary}.md` using `.agent-knowledge/static/templates/SPEC-TEMPLATE.md` when it needs a stable, independently reviewable specification.
 - Use `.agent-knowledge/dynamic/reports/LESSON.md` for reusable prevention rules, not a chronological task log. Follow `.agent-knowledge/static/templates/LESSON-TEMPLATE.md`; the template is the sole source for lesson structure.
 - After any user correction, record its reusable lesson and prevention rule in `.agent-knowledge/dynamic/reports/LESSON.md`; consult relevant lessons on related work.
 - Do not create task-tracking records for trivial work unless the user or project requires them.
@@ -45,4 +48,3 @@ Use these shared rules across agents. Follow more specific project or task instr
 - Consult `.agent-knowledge/dynamic/docs/README.md` for the document mapping and update rules.
 - After a material feature addition, change, or removal, update or retire only the affected information in relevant documents. Treat the listed topics as prompts rather than mandatory headings; keep useful sections concise, leave unknowns explicit, and do not invent decisions.
 - Keep external research distinct from project facts. When research is requested or supplied, record its sources and dates and label recommendations or proposed designs; describe the current system using project evidence such as configuration, schemas, migrations, models, and queries. Do not repeat web research during routine implementation unless requested.
-

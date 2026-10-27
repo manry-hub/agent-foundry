@@ -12,3 +12,4 @@
 - When documenting an AI pipeline, show the decision flow after AGENTS.md is read rather than the installation flow.
 - When defining branch names, make ticket prefixes optional unless the project requires a ticket for every change.
 - When maintaining `.agent-knowledge`, write all instructions, templates, examples, and placeholders in professional English; scan the full directory for other-language remnants before completing the change.
+- When project documentation needs reusable implementation plans, architecture decisions, or technical contracts, provide dedicated workflow, ADR, and SPEC templates with numbered output paths instead of recording those artifacts only in task reports.

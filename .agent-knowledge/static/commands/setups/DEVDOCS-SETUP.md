@@ -19,6 +19,10 @@ Do not begin writing the PRD or SDD documents until the user has selected a mode
 - `.agent-knowledge/dynamic/docs/dev/sdd/ARCHITECTURE.md` — architecture output.
 - `.agent-knowledge/dynamic/docs/dev/sdd/TECHNOLOGYSTACK.md` — technology-stack output.
 - `.agent-knowledge/dynamic/docs/dev/sdd/DATABASE.md` — database output.
+- `.agent-knowledge/static/templates/ADR-TEMPLATE.md` — immutable canonical structure for architecture decision records.
+- `.agent-knowledge/static/templates/SPEC-TEMPLATE.md` — immutable canonical structure for implementation-facing specifications.
+- `.agent-knowledge/dynamic/docs/notes/ADR-{incremental-number}-{adr-summary}.md` — architecture decision record output.
+- `.agent-knowledge/dynamic/docs/notes/SPEC-{incremental-number}-{spec-summary}.md` — specification output.
 
 ## Procedure
 
@@ -46,6 +50,7 @@ Do not begin writing the PRD or SDD documents until the user has selected a mode
 
 - Follow the headings, tables, and MVP, post-MVP, and out-of-scope separation in `PRD-TEMPLATE.md`. Use implementation evidence to record capabilities of an existing project; describe a new project's requirements as plans until implemented.
 - Follow the three sections in `SDD-TEMPLATE.md`: Architecture for system design, components, security, deployment, and decisions; Technology Stack for layers, technologies, versions, and roles; and Database for topology, schema, relationships, indexes, migrations, and seed data. Do not duplicate the technology-stack table in Architecture.
+- For a durable architectural decision, create an ADR from `ADR-TEMPLATE.md`. For a behavior, interface, data, or integration contract that needs independent implementation review, create a SPEC from `SPEC-TEMPLATE.md`. Link either document from the affected living documentation when useful.
 
 ## Writing and Research Rules
 
@@ -61,6 +66,7 @@ Do not begin writing the PRD or SDD documents until the user has selected a mode
 
 - The user selected a mode before documentation was written.
 - The PRD follows `PRD-TEMPLATE.md`, and ARCHITECTURE, TECHNOLOGYSTACK, and DATABASE follow their respective parts of `SDD-TEMPLATE.md`, without modifying those templates.
+- Any ADR or SPEC created follows its canonical template and uses the required numbered filename.
 - In an existing project, implementation facts are distinguishable from planned changes.
 - In a new project, requirements and technical design are treated as plans or proposals, and unavailable information is recorded as an open question.
 - Report changed documents, updates, codebase evidence used when applicable, and remaining open questions or decisions.
