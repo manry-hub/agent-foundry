@@ -20,17 +20,17 @@ Use this workflow only when the user explicitly requests multi-agent orchestrati
    - The user approves, revises, or rejects the plan.
    - Explicit approval is the sole authorization to start implementation.
 3. **Branch and worktree preparation**
-   - Ensure a clean baseline on `main` or the approved base branch.
+   - Ensure a clean baseline on `develop` or the approved Gitflow source branch (`main` only for a production hotfix).
    - Create one feature branch for each independent scope, for example `feature/<scope>-frontend` and `feature/<scope>-backend`.
    - Create one genuinely separate Orca worktree for each branch, then verify every session's branch and physical path before sending an implementation prompt.
-   - Designate one integration session on an integration branch. It must not merge changes until all dependent branches are complete.
+   - Designate one integration session for `develop`. It must not merge changes until all dependent branches are complete.
 4. **Parallel implementation**
    - Each session modifies only its owned files and runs checks relevant to its scope.
    - The approved contract is the shared source of truth. If the contract, scope, or a dependency must change, the session stops and asks the planner to obtain a user decision.
    - Each implementation session reports its commit, changed files, verification results, and blockers from its own branch.
 5. **Integration**
-   - The integration session merges scope branches into the integration branch, resolves conflicts only according to the approved contract, and runs combined verification.
-   - Do not merge directly into `main` outside the project's required review/PR flow.
+   - The integration session merges feature scope branches into `develop`, resolves conflicts only according to the approved contract, and runs combined verification.
+   - Do not merge into `main` outside the Gitflow release or hotfix review/PR flow.
    - Report the integration commit, checks, deviations, and blockers to the user. There is no automatic review-agent stage unless the user requests one.
 
 ## Orca Practices
